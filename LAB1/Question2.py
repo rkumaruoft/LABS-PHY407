@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 
 M_s = 1
 G = 39.5
-alpha = 0.01
 
+def get_ACC(G, M_s, r):
+    return (G * M_s) / (r ** 3)
 
 def get_radius(x, y):
     return np.sqrt(x ** 2 + y ** 2)
@@ -33,10 +34,10 @@ if __name__ == "__main__":
     vx = np.zeros(n)
     vy = np.zeros(n)
 
-    x[0] =
+    x[0] = 5.2
     y[0] = 0
     vx[0] = 0
-    vy[0] = 8.17
+    vy[0] = 2.63
 
     for i in range(n - 1):
         r = get_radius(x[i], y[i])
@@ -44,30 +45,6 @@ if __name__ == "__main__":
         y[i + 1], vy[i + 1] = func_y(y[i], vy[i], r, dt)
 
     plt.figure(1)
-    plt.xlabel("x(AU)")
-    plt.ylabel("y(AU)")
-    plt.plot(np.array(x), np.array(y))
-    plt.show()
-
-    # part 2 with relativity
-
-    # initialize the arrays
-    x = np.zeros(n)
-    y = np.zeros(n)
-    vx = np.zeros(n)
-    vy = np.zeros(n)
-
-    x[0] = 0.47
-    y[0] = 0
-    vx[0] = 0
-    vy[0] = 8.17
-
-    for i in range(n - 1):
-        r = get_radius(x[i], y[i])
-        x[i + 1], vx[i + 1] = func_x(x[i], vx[i], r, dt)
-        y[i + 1], vy[i + 1] = func_y(y[i], vy[i], r, dt)
-
-    plt.figure(2)
     plt.xlabel("x(AU)")
     plt.ylabel("y(AU)")
     plt.plot(np.array(x), np.array(y))
