@@ -68,6 +68,7 @@ if __name__ == "__main__":
 
     # part 2 with relativity
 
+    #hello
     # initialize the arrays
     x = np.zeros(n)
     y = np.zeros(n)
