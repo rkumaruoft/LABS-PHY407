@@ -28,6 +28,7 @@ if __name__ == "__main__":
     total_time = 10
     n = int(total_time / dt)
 
+    # Jupiter
     # initialize the arrays
     x = np.zeros(n)
     y = np.zeros(n)
@@ -43,6 +44,24 @@ if __name__ == "__main__":
         r = get_radius(x[i], y[i])
         x[i + 1], vx[i + 1] = func_x(x[i], vx[i], r, dt)
         y[i + 1], vy[i + 1] = func_y(y[i], vy[i], r, dt)
+
+
+    #Earth
+    # initialize the arrays
+    x_e = np.zeros(n)
+    y_e = np.zeros(n)
+    vx_e = np.zeros(n)
+    vy_e = np.zeros(n)
+
+    x_e[0] = 1.0
+    y_e[0] = 0
+    vx_e[0] = 0
+    vy_e[0] = 6.18
+
+    for i in range(n - 1):
+        r = get_radius(x[i], y[i])
+        x_e[i + 1], vx_e[i + 1] = func_x(x_e[i], vx_e[i], r, dt)
+        y_e[i + 1], vy_e[i + 1] = func_y(y_e[i], vy_e[i], r, dt)
 
     plt.figure(1)
     plt.xlabel("x(AU)")
