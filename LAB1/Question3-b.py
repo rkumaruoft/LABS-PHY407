@@ -24,19 +24,18 @@ for i in range(len(Ns)):
     print(f"Time taken for {Ns[i]} samples: {times[i]:.6f} seconds")
 
 manual_times = np.array([0.001987457275390625, 0.014005661010742188, 0.17135143280029297,
-                            1.340855360031128, 13.632678270339966, 204.59526944160461])
+                         1.340855360031128, 13.632678270339966, 204.59526944160461])
 numpy_times = times
 
 plt.figure(figsize=(8, 6))
-plt.plot(Ns, manual_times, marker='o', label="Manual histogram")
-plt.plot(Ns, numpy_times, marker='s', label="NumPy histogram")
+plt.plot(Ns, manual_times, marker='o', label="Manual Times")
+plt.plot(Ns, numpy_times, marker='s', label="NumPy Times")
 
-plt.yscale("log")   # log scale only on y-axis
+plt.yscale("log")  # log scale only on y-axis
 
 plt.xlabel("Number of samples (N)")
 plt.ylabel("Time (seconds, log scale)")
-plt.title("Timing Comparison: Manual vs NumPy Histogram")
+plt.title("Timing Comparison: Manual vs NumPy")
 plt.legend()
 
 plt.show()
-
