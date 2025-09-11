@@ -25,7 +25,7 @@ if __name__ == "__main__":
     """
     # time in years
     dt = 0.0001
-    total_time = 10
+    total_time = 12
     n = int(total_time / dt)
 
     #Jupiter initialize the arrays

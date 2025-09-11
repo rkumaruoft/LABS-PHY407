@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 M_s = 1
 G = 39.5
+alpha = 0.01
 
 def get_ACC(G, M_s, r):
     return (G * M_s) / (r ** 3)
