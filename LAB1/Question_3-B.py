@@ -23,8 +23,8 @@ for N in Ns:
 for i in range(len(Ns)):
     print(f"Time taken for {Ns[i]} samples: {times[i]:.6f} seconds")
 
-manual_times = np.array([0.001987457275390625, 0.014005661010742188, 0.17135143280029297,
-                         1.340855360031128, 13.632678270339966, 204.59526944160461])
+manual_times = np.array([0.027260541915893555, 0.014522790908813477, 0.13973212242126465,
+                         1.4382565021514893, 12.63277006149292, 136.6366982460022])
 numpy_times = times
 
 plt.figure(figsize=(8, 6))
@@ -35,7 +35,9 @@ plt.yscale("log")  # log scale only on y-axis
 
 plt.xlabel("Number of samples (N)")
 plt.ylabel("Time (seconds, log scale)")
-plt.title("Timing Comparison: Manual vs NumPy")
 plt.legend()
+# Save figure as PNG
+plt.savefig("histogram_timing_comparison.png", dpi=300, bbox_inches="tight")
 
 plt.show()
+

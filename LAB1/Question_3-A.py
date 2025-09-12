@@ -11,6 +11,7 @@ Ns = [10, 100, 1000, 10000, 100000, 1000000]
 times = []
 
 for N in Ns:
+    start = time.time()
     # edges for bins
     edges = np.zeros(M + 1)
     for i in range(M + 1):
@@ -20,7 +21,6 @@ for N in Ns:
     samples = np.random.randn(N)
     counts = np.zeros(M)
 
-    start = time.time()
     for sample in samples:
         if sample == bin_max:
             counts[-1] += 1
