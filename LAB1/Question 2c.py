@@ -28,8 +28,8 @@ if __name__ == "__main__":
     Initial conditions
     """
     # time in years
-    dt = 0.0001
-    total_time = 20
+    dt = 0.01
+    total_time = 1e5
     n = int(total_time / dt)
 
     # Jupiter initialize the arrays
@@ -95,6 +95,11 @@ if __name__ == "__main__":
         # update asteroid
         x_e[i + 1], vx_e[i + 1] = func_x(x_e[i], vx_e[i], a_ex, dt)
         y_e[i + 1], vy_e[i + 1] = func_y(y_e[i], vy_e[i], a_ey, dt)
+
+        #year counter
+        year = i*dt
+        if round(year) == year:
+            print("year: ", i*dt)
 
     # plotting orbits
     plt.figure(1)

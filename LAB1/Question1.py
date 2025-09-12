@@ -70,9 +70,10 @@ if __name__ == "__main__":
     plt.figure(1)
     plt.xlabel("x(AU)")
     plt.ylabel("y(AU)")
-    plt.plot(np.array(x), np.array(y))
+    plt.plot(np.array(x), np.array(y), label="Mercury")
     plt.scatter(0, 0, color="gold", s=100, label="Sun")
     plt.axis("equal")
+    plt.legend()
     plt.show()
 
     # part 2 with relativity
@@ -100,9 +101,10 @@ if __name__ == "__main__":
     plt.figure(2)
     plt.xlabel("x(AU)")
     plt.ylabel("y(AU)")
-    plt.plot(np.array(x), np.array(y))
+    plt.plot(np.array(x), np.array(y), label="Mercury")
     plt.scatter(0, 0, color="gold", s=100, label="Sun")
     plt.axis("equal")
+    plt.legend()
     plt.show()
 
     #Velocity vs. time plots
