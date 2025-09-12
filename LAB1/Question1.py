@@ -45,12 +45,14 @@ if __name__ == "__main__":
     dt = 0.0001
     total_time = 1
     n = int(total_time / dt)
+    t = np.arange(n) * dt
 
     # initialize the arrays
     x = np.zeros(n)
     y = np.zeros(n)
     vx = np.zeros(n)
     vy = np.zeros(n)
+    speed_n = np.zeros(n)
 
     x[0] = 0.47
     y[0] = 0
@@ -61,11 +63,16 @@ if __name__ == "__main__":
         r = get_radius(x[i], y[i])
         x[i + 1], vx[i + 1] = func_x(x[i], vx[i], r, dt)
         y[i + 1], vy[i + 1] = func_y(y[i], vy[i], r, dt)
+        speed_n[i] = np.hypot(vx[i], vy[i])
+
+    speed_n[-1] = np.hypot(vx[-1], vy[-1])
 
     plt.figure(1)
     plt.xlabel("x(AU)")
     plt.ylabel("y(AU)")
     plt.plot(np.array(x), np.array(y))
+    plt.scatter(0, 0, color="gold", s=100, label="Sun")
+    plt.axis("equal")
     plt.show()
 
     # part 2 with relativity
@@ -75,6 +82,7 @@ if __name__ == "__main__":
     y = np.zeros(n)
     vx = np.zeros(n)
     vy = np.zeros(n)
+    speed_r = np.zeros(n)
 
     x[0] = 0.47
     y[0] = 0
@@ -85,9 +93,25 @@ if __name__ == "__main__":
         r = get_radius(x[i], y[i])
         x[i + 1], vx[i + 1] = func_x_relativity(x[i], vx[i], r, dt)
         y[i + 1], vy[i + 1] = func_y_relativity(y[i], vy[i], r, dt)
+        speed_r[i] = np.hypot(vx[i], vy[i])
+
+    speed_r[-1] = np.hypot(vx[-1], vy[-1])
 
     plt.figure(2)
     plt.xlabel("x(AU)")
     plt.ylabel("y(AU)")
     plt.plot(np.array(x), np.array(y))
+    plt.scatter(0, 0, color="gold", s=100, label="Sun")
+    plt.axis("equal")
+    plt.show()
+
+    #Velocity vs. time plots
+    plt.figure(3, figsize=(8, 4))
+    plt.plot(t, speed_n, label="Newtonian", linewidth=1)
+    plt.plot(t, speed_r, '--', label="Relativistic", linewidth=1)
+    plt.xlabel("Time (years)")
+    plt.ylabel("Velocity (AU/year)")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
     plt.show()
