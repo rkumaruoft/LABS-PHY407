@@ -45,3 +45,5 @@ if __name__ == '__main__':
     print("Simpsons rule: ", simpson_int(f, N_steps=1000, lower_limit=a, upper_limit=b))
 
     print("Exact value: ", exact_int(f, a, b))
+
+
