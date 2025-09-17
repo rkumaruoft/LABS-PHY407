@@ -30,8 +30,8 @@ def method_2_std(array):
     numerator = sum_x_squared - ((sum_x ** 2) / n)
     return np.sqrt(numerator / (n - 1))
 
-def get_relative_error(array1, array2):
-    return abs(array1 - array2)/array2
+def get_relative_error(value1, value2):
+    return abs(value1 - value2)/value2
 
 
 print("method 1 std: ", method_1_std(array))
