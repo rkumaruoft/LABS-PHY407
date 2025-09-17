@@ -59,7 +59,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.show()
 
-    # === Plot J5 ===
+    # === Plot J5 vs JV5 ===
     plt.figure(figsize=(8, 5))
     plt.plot(x_vals, bessel_jv5, "g--", label=r"$J_5(x)$ SciPy")
     plt.plot(x_vals, bessel_j5, "g^", label=r"$J_5(x)$ Simpson", markersize=4)
@@ -67,3 +67,36 @@ if __name__ == "__main__":
     plt.ylabel(r"$J_5(x)$")
     plt.legend()
     plt.show()
+
+    # === Residual plots (scatter of Simpson vs SciPy) ===
+    diff_J0 = np.array(bessel_j0) - bessel_jv0
+    diff_J3 = np.array(bessel_j3) - bessel_jv3
+    diff_J5 = np.array(bessel_j5) - bessel_jv5
+
+    # J0 residuals
+    plt.figure(figsize=(8, 5))
+    plt.axhline(0, color='black', linewidth=1)  # reference line
+    plt.scatter(x_vals, diff_J0, color='red', s=15, label=r"$J_0$ residuals")
+    plt.xlabel("x")
+    plt.ylabel("Residual (Simpson - SciPy)")
+    plt.legend()
+    plt.show()
+
+    # J3 residuals
+    plt.figure(figsize=(8, 5))
+    plt.axhline(0, color='black', linewidth=1)
+    plt.scatter(x_vals, diff_J3, color='blue', s=15, label=r"$J_3$ residuals")
+    plt.xlabel("x")
+    plt.ylabel("Residual (Simpson - SciPy)")
+    plt.legend()
+    plt.show()
+
+    # J5 residuals
+    plt.figure(figsize=(8, 5))
+    plt.axhline(0, color='black', linewidth=1)
+    plt.scatter(x_vals, diff_J5, color='green', s=15, label=r"$J_5$ residuals")
+    plt.xlabel("x")
+    plt.ylabel("Residual (Simpson - SciPy)")
+    plt.legend()
+    plt.show()
+
