@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Lab02_Q2_a import simpson_int
+from scipy.special import jv
 
 
 def differential_bessel(x, level, angle):
@@ -19,13 +20,12 @@ if __name__ == "__main__":
     bessel_j5 = []
 
     # x values from 0 to 20 with step 0.5
-    x_vals = np.arange(0, 20, 0.1)
+    x_vals = np.arange(0, 20)
 
     for i in x_vals:
         bessel_j0.append(simpson_int(bessel_integrand(i, 0), N_steps, lower_limit=0, upper_limit=np.pi))
         bessel_j3.append(simpson_int(bessel_integrand(i, 3), N_steps, lower_limit=0, upper_limit=np.pi))
         bessel_j5.append(simpson_int(bessel_integrand(i, 5), N_steps, lower_limit=0, upper_limit=np.pi))
-
 
     # plot bessel functions
     plt.figure(figsize=(10, 6))
@@ -36,5 +36,34 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel(r"$J_n(x)$")
     plt.legend()
-    plt.grid(True)
+    plt.show()
+
+    # compute Bessel functions directly
+    bessel_jv0 = jv(0, x_vals)
+    bessel_jv3 = jv(3, x_vals)
+    bessel_jv5 = jv(5, x_vals)
+
+    # === Plot J0 vs JV0 ===
+    plt.plot(x_vals, bessel_jv0, "r--", label=r"$J_0(x)$ SciPy")
+    plt.plot(x_vals, bessel_j0, "ro", label=r"$J_0(x)$ Simpson", markersize=4)
+    plt.xlabel("x")
+    plt.ylabel(r"$J_0(x)$")
+    plt.legend()
+    plt.show()
+
+    # === Plot J3 vs JV3 ===
+    plt.plot(x_vals, bessel_jv3, "b--", label=r"$J_3(x)$ SciPy")
+    plt.plot(x_vals, bessel_j3, "bs", label=r"$J_3(x)$ Simpson", markersize=4)
+    plt.xlabel("x")
+    plt.ylabel(r"$J_3(x)$")
+    plt.legend()
+    plt.show()
+
+    # === Plot J5 ===
+    plt.figure(figsize=(8, 5))
+    plt.plot(x_vals, bessel_jv5, "g--", label=r"$J_5(x)$ SciPy")
+    plt.plot(x_vals, bessel_j5, "g^", label=r"$J_5(x)$ Simpson", markersize=4)
+    plt.xlabel("x")
+    plt.ylabel(r"$J_5(x)$")
+    plt.legend()
     plt.show()
