@@ -2,8 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-array = []
+array = np.loadtxt('cdata.txt')
 
 true_std = np.std(array, ddof=1)
 
-for i in array:
+print(true_std)
+print(array)
