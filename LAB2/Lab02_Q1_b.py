@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def method_1_std(array1):
     sum1 = 0
     for item in array1:
@@ -25,17 +26,18 @@ def method_2_std(array):
     numerator = sum_x_squared - ((sum_x ** 2) / n)
     return np.sqrt(numerator / (n - 1))
 
+
 def method_2_std_fixed(array):
-    n = len(array)
-    sum_x = 0
-    sum_x_squared = 0
+    n = np.longdouble(len(array))
+    sum_x = np.longdouble(0)
+    sum_x_squared = np.longdouble(0)
 
     for item in array:
         sum_x += item
-        sum_x_squared += (item ** 2)
+        sum_x_squared += item ** 2
 
     numerator = sum_x_squared - ((sum_x ** 2) / n)
-    return np.sqrt(numerator / (n - 1))
+    return np.longdouble(np.sqrt(numerator / (n - 1)))
 
 
 def get_relative_error(value1, value2):
@@ -48,10 +50,10 @@ if __name__ == "__main__":
     true_std = np.std(array, ddof=1)
 
     print("method 1 std: ", method_1_std(array))
-    print("method 2 std: ", method_2_std(array))
+    print("method 2 std: ", method_2_std_fixed(array))
     print("true std: ", true_std)
 
     print("relative error method 1:", get_relative_error(method_1_std(array), true_std))
-    print("relative error method 2:", get_relative_error(method_2_std(array), true_std))
+    print("relative error method 2:", get_relative_error(method_2_std_fixed(array), true_std))
 
 # print(array)
