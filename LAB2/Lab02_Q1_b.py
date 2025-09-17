@@ -12,9 +12,6 @@ def method_1_std(array1):
         sum1 += item
     array1_mean = sum1 / len(array1)
 
-    print(array1_mean)
-    print(np.mean(array))
-
     var1 = 0
     for item in array1:
         var1 += (item - array1_mean) ** 2
@@ -33,8 +30,15 @@ def method_2_std(array):
     numerator = sum_x_squared - ((sum_x ** 2) / n)
     return np.sqrt(numerator / (n - 1))
 
+def get_relative_error(array1, array2):
+    return abs(array1 - array2)/array2
 
-print(method_2_std(array))
 
-print(true_std)
-print(array)
+print("method 1 std: ", method_1_std(array))
+print("method 2 std: ", method_2_std(array))
+print("true std: ", true_std)
+
+print("relative error method 1:", get_relative_error(method_1_std(array), true_std))
+print("relative error method 2:", get_relative_error(method_2_std(array), true_std))
+
+#print(array)
