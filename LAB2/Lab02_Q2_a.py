@@ -32,11 +32,11 @@ def exact_int(diff_func, lower_limit, upper_limit):
     xs = sympy.Symbol('xs', real=True)  # the variable of integration
     return sympy.integrate(diff_func(xs), (xs, lower_limit, upper_limit))
 
+if __name__ == '__main__':
+    a = 0.0 # beginning of interval
+    b = 1.0 # end of interval
 
-a = 0.0 # beginning of interval
-b = 1.0 # end of interval
+    print("Trapezoidal rule: ", trapezoidal_int(f, N_steps = 1000, lower_limit = a, upper_limit = b))
+    print("Simpsons rule: ", simpson_int(f, N_steps = 1000, lower_limit = a, upper_limit = b))
 
-print("Trapezoidal rule: ", trapezoidal_int(f, N_steps = 1000, lower_limit = a, upper_limit = b))
-print("Simpsons rule: ", simpson_int(f, N_steps = 1000, lower_limit = a, upper_limit = b))
-
-print("Exact value: ", exact_int(f, a, b))
+    print("Exact value: ", exact_int(f, a, b))
