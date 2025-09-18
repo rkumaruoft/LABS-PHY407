@@ -61,4 +61,3 @@ if __name__ == "__main__":
     for elev, azim, name in views:
         ax.view_init(elev=elev, azim=azim)
         plt.savefig(os.path.join("Plots", name), dpi=300, bbox_inches="tight")
-()
