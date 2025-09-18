@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 from Lab02_Q2_a import simpson_int
@@ -35,7 +37,7 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel(r"$J_n(x)$")
     plt.legend()
-    plt.savefig("bessel_functions.png", dpi=300)
+    plt.savefig(os.path.join("Plots", "bessel_functions.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # compute Bessel functions directly
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel(r"$J_0(x)$")
     plt.legend()
-    plt.savefig("bessel_J0_comparison.png", dpi=300)
+    plt.savefig(os.path.join("Plots", "bessel_J0_comparison.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # === Plot J3 vs JV3 ===
@@ -60,7 +62,8 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel(r"$J_3(x)$")
     plt.legend()
-    plt.savefig("bessel_J3_comparison.png", dpi=300)
+    plt.savefig("", dpi=300)
+    plt.savefig(os.path.join("Plots", "bessel_J3_comparison.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # === Plot J5 vs JV5 ===
@@ -70,7 +73,8 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel(r"$J_5(x)$")
     plt.legend()
-    plt.savefig("bessel_J5_comparison.png", dpi=300)
+    plt.savefig("", dpi=300)
+    plt.savefig(os.path.join("Plots", "bessel_J5_comparison.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # === Residual plots (scatter of Simpson vs SciPy) ===
@@ -85,7 +89,7 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel("Residual (Simpson - SciPy)")
     plt.legend()
-    plt.savefig("residual_J0.png", dpi=300)
+    plt.savefig(os.path.join("Plots", "residual_J0.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # J3 residuals
@@ -95,7 +99,7 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel("Residual (Simpson - SciPy)")
     plt.legend()
-    plt.savefig("residual_J3.png", dpi=300)
+    plt.savefig(os.path.join("Plots", "residual_J3.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # J5 residuals
@@ -105,5 +109,5 @@ if __name__ == "__main__":
     plt.xlabel("x")
     plt.ylabel("Residual (Simpson - SciPy)")
     plt.legend()
-    plt.savefig("residual_J5.png", dpi=300)
+    plt.savefig(os.path.join("Plots", "residual_J5.png"), dpi=300, bbox_inches="tight")
     plt.show()

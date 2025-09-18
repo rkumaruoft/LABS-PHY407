@@ -1,8 +1,9 @@
+import os
+
 import numpy as np
 from Lab02_Q2_a import simpson_int
 from Lab02_Q2_b import bessel_integrand
 import matplotlib.pyplot as plt
-
 
 if __name__ == "__main__":
     N_steps = 1000
@@ -51,14 +52,13 @@ if __name__ == "__main__":
         ax.view_init(elev=elev, azim=azim)
         plt.show()
     views = [
-        (30, 45,  "view1.png"),
+        (30, 45, "view1.png"),
         (60, 120, "view2.png"),
         (20, 200, "view3.png"),
-        (90, 0,   "top_down.png"),
+        (90, 0, "top_down.png"),
     ]
 
     for elev, azim, name in views:
         ax.view_init(elev=elev, azim=azim)
-        plt.savefig(name, dpi=300, bbox_inches="tight")
-        print(f"Saved {name}")
-
+        plt.savefig(os.path.join("Plots", name), dpi=300, bbox_inches="tight")
+()
