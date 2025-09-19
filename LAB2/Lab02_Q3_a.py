@@ -12,13 +12,13 @@ def potential(u, r, z):
     denominator = 4*np.pi*eps*((np.cos(u))**2)*np.sqrt((z-l*np.tan(u))**2 + r**2)
     return numerator/denominator
 
-def potential_soln(r):
+def potential_soln(r, z=0):
     l = 1e-3
     Q = 10e-13
     eps = 8.854e-12
-    term1 = (r ** 2) / (2 * l ** 2)
-    print(scipy_modified_bessel(0, term1))
-    return (Q/(4*np.pi*eps*l))*(np.exp(term1))*scipy_modified_bessel(0, term1)
+    arg = (r**2) / (2 * l**2)
+    val = (Q/(4*np.pi*eps*l)) * np.exp(arg) * scipy_modified_bessel(arg)
+    return float(val)
 
 
 def potential_integrand(r, z):
@@ -39,23 +39,45 @@ def simpson_int(diff_func, N_steps, lower_limit, upper_limit):
                    4 * sum1 + 2 * sum2)
     return s
 
-a = -np.pi/2
-b = np.pi/2
+#integration limits
+a, b = -np.pi/2, np.pi/2
 
-start = 0.25e-3
-stop = 5e-3
-N_steps = 0.05e-3
+#r-range:
+start, stop, step = 0.25e-3, 5e-3, 0.05e-3
+r_array = np.arange(start, stop + step/2, step)  # include stop
+
+#Number of subintervals
+N_steps = 8  # must be even
 
 #x_vals = 1/2
 x_vals = (0.25**2)/(2*1**2)
 
-r_array = np.arange(start, stop)
-
-l=1e-3
-Q=10e-13
-eps = 8.854e-12
+simpson_vals = []
+exact_vals   = []
 
 for r in r_array:
-    print(potential_soln(r), r)
+    V_sim = simpson_int(potential_integrand(r, 0), N_steps, a, b)
+    V_ex  = potential_soln(r, 0)
 
-print("Simpsons rule: ", simpson_int(potential_integrand(1, 0), N_steps=8, lower_limit=a, upper_limit=b))
+    simpson_vals.append(V_sim)
+    exact_vals.append(V_ex)
+
+    rel_err = (V_sim - V_ex) / V_ex
+    print(f"r = {r:.2e}  |  V_simpson = {V_sim:.4e}  |  V_exact = {V_ex:.4e}  |  rel_error = {rel_err:.2e}")
+
+#Plotting
+plt.figure(figsize=(8, 5))
+plt.plot(r_array*1e3, simpson_vals, label="Simpson’s rule")
+plt.plot(r_array*1e3, exact_vals,   '--', label="Analytic (K0)")
+plt.xlabel("r (mm)")
+plt.ylabel("V (V)")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(8, 3))
+plt.plot(r_array*1e3, (np.array(simpson_vals)-np.array(exact_vals))/np.array(exact_vals))
+plt.xlabel("r (mm)")
+plt.ylabel("Relative error")
+plt.tight_layout()
+plt.show()
