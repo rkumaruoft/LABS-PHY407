@@ -46,12 +46,13 @@ start, stop, step = 0.25e-3, 5e-3, 0.05e-3
 r_array = np.arange(start, stop + step/2, step)
 
 #Number of subintervals
-N_steps = 8  # must be even
+N_steps = 50  # must be even
 
 x_vals = (0.25**2)/(2*1**2)
 
 simpson_vals = []
 exact_vals   = []
+frac_errors = []
 
 for r in r_array:
     V_sim = simpson_int(potential_integrand(r, 0), N_steps, a, b)
@@ -62,6 +63,10 @@ for r in r_array:
 
     rel_err = (V_sim - V_ex) / V_ex
     print(f"r = {r:.2e}  |  V_simpson = {V_sim:.4e}  |  V_exact = {V_ex:.4e}  |  rel_error = {rel_err:.2e}")
+
+    frac_errors.append(abs((rel_err / V_sim)) * 100)
+
+print("The average fractional error is: ", np.mean(frac_errors), "%")
 
 #Plotting
 plt.figure(figsize=(8, 5))
