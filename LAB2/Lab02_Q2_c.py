@@ -1,9 +1,8 @@
 import os
-
 import numpy as np
+import matplotlib.pyplot as plt
 from Lab02_Q2_a import simpson_int
 from Lab02_Q2_b import bessel_integrand
-import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     N_steps = 1000
@@ -36,21 +35,9 @@ if __name__ == "__main__":
     Y = R * np.sin(Theta)
     Z = U
 
-    # --- plotting ---
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection="3d")
+    # prepare output folder
+    os.makedirs("Plots", exist_ok=True)
 
-    surf = ax.plot_surface(X, Y, Z, cmap="viridis", linewidth=0, antialiased=True)
-
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("u_mn")
-    fig.colorbar(surf, shrink=0.5, aspect=10)
-
-    # multiple views
-    for elev, azim in [(30, 45), (60, 120), (20, 200)]:
-        ax.view_init(elev=elev, azim=azim)
-        plt.show()
     views = [
         (30, 45, "view1.png"),
         (60, 120, "view2.png"),
@@ -59,5 +46,21 @@ if __name__ == "__main__":
     ]
 
     for elev, azim, name in views:
+        fig = plt.figure(figsize=(7, 6), constrained_layout=True)
+        ax = fig.add_subplot(111, projection="3d")
+
+        surf = ax.plot_surface(X, Y, Z, cmap="viridis", linewidth=0, antialiased=True)
+
+        ax.set_xlim(X.min(), X.max())
+        ax.set_ylim(Y.min(), Y.max())
+        ax.set_zlim(U.min(), U.max())
+
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("u_mn", labelpad=10)  # <-- pushes label closer
+
+        fig.colorbar(surf, shrink=0.5, aspect=10)
+
         ax.view_init(elev=elev, azim=azim)
         plt.savefig(os.path.join("Plots", name), dpi=300, bbox_inches="tight")
+        plt.close(fig)

@@ -22,7 +22,7 @@ if __name__ == "__main__":
     bessel_j5 = []
 
     # x values from 0 to 20 with step 0.5
-    x_vals = np.arange(0, 20)
+    x_vals = np.arange(0, 20, 0.2)
 
     for i in x_vals:
         bessel_j0.append(simpson_int(bessel_integrand(i, 0), N_steps, lower_limit=0, upper_limit=np.pi))
@@ -47,8 +47,8 @@ if __name__ == "__main__":
 
     # === Plot J0 vs JV0 ===
     plt.figure(figsize=(8, 5))
-    plt.plot(x_vals, bessel_jv0, "r--", label=r"$J_0(x)$ SciPy")
-    plt.plot(x_vals, bessel_j0, "ro", label=r"$J_0(x)$ Simpson", markersize=4)
+    plt.plot(x_vals, bessel_jv0, "b--", label=r"$J_0(x)$ SciPy")
+    plt.plot(x_vals, bessel_j0, "go", label=r"$J_0(x)$ Simpson", markersize=4)
     plt.xlabel("x")
     plt.ylabel(r"$J_0(x)$")
     plt.legend()
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     # === Plot J3 vs JV3 ===
     plt.figure(figsize=(8, 5))
     plt.plot(x_vals, bessel_jv3, "b--", label=r"$J_3(x)$ SciPy")
-    plt.plot(x_vals, bessel_j3, "bs", label=r"$J_3(x)$ Simpson", markersize=4)
+    plt.plot(x_vals, bessel_j3, "gs", label=r"$J_3(x)$ Simpson", markersize=4)
     plt.xlabel("x")
     plt.ylabel(r"$J_3(x)$")
     plt.legend()
@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     # === Plot J5 vs JV5 ===
     plt.figure(figsize=(8, 5))
-    plt.plot(x_vals, bessel_jv5, "g--", label=r"$J_5(x)$ SciPy")
+    plt.plot(x_vals, bessel_jv5, "b--", label=r"$J_5(x)$ SciPy")
     plt.plot(x_vals, bessel_j5, "g^", label=r"$J_5(x)$ Simpson", markersize=4)
     plt.xlabel("x")
     plt.ylabel(r"$J_5(x)$")

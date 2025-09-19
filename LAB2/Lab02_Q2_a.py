@@ -92,5 +92,3 @@ if __name__ == '__main__':
 
     print(f"Average time Trapezoidal (N={N_steps_trap}): {avg_time_trap:.6e} seconds")
     print(f"Average time Simpson (N={N_steps_simp}):    {avg_time_simp:.6e} seconds")
-
-

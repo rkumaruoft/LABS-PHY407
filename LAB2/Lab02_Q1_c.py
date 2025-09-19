@@ -1,6 +1,21 @@
 import numpy as np
 from Lab02_Q1_b import method_1_std, method_2_std, get_relative_error
 
+
+def method_2_std_fixed(array, mean):
+    n = (len(array))
+    sum_x = 0
+    sum_x_squared = 0
+
+    for item in array:
+        item_shifted = item - mean
+        sum_x += item_shifted
+        sum_x_squared += item_shifted ** 2
+
+    numerator = sum_x_squared - ((sum_x ** 2) / n)
+    return np.sqrt(numerator / (n - 1))
+
+
 if __name__ == "__main__":
     mean_1, sigma_1, n_1 = 0., 1., 2000
     mean_2, sigma_2, n_2 = 1.e7, 1., 2000
@@ -28,4 +43,6 @@ if __name__ == "__main__":
     print(f"Sequence 2 - Method 1 std:{std2_method_1} Error: {seq2_error_1}")
     print(f"Sequence 2 - Method 2 std:{std2_method_2} Error: {seq2_error_2}")
 
-
+    std2_method_3 = method_2_std_fixed(sequence_2, 1.e7)
+    seq2_error_3 = get_relative_error(std2_method_3, std2_real)
+    print(f"Sequence 2 - Method 2 fixed std:{std2_method_3} Error: {seq2_error_3}")
