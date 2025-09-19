@@ -1,7 +1,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import sympy
 from scipy.special import k0 as scipy_modified_bessel
 
 def potential(u, r, z):
@@ -44,12 +43,11 @@ a, b = -np.pi/2, np.pi/2
 
 #r-range:
 start, stop, step = 0.25e-3, 5e-3, 0.05e-3
-r_array = np.arange(start, stop + step/2, step)  # include stop
+r_array = np.arange(start, stop + step/2, step)
 
 #Number of subintervals
 N_steps = 8  # must be even
 
-#x_vals = 1/2
 x_vals = (0.25**2)/(2*1**2)
 
 simpson_vals = []
