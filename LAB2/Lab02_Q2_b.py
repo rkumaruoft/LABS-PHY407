@@ -21,7 +21,7 @@ if __name__ == "__main__":
     bessel_j3 = []
     bessel_j5 = []
 
-    # x values from 0 to 20 with step 0.5
+    # x values from 0 to 20 with step 0.2
     x_vals = np.arange(0, 20, 0.2)
 
     for i in x_vals:
