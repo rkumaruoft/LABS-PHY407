@@ -58,6 +58,8 @@ if __name__ == '__main__':
     print("Exact value: ", exact_val)
 
 
+    print("==========================Question 1E==============================================")
+
     print("==========================Question 1C==============================================")
     N_steps_trap = 2**12
     N_steps_simp = 2**4
@@ -92,3 +94,17 @@ if __name__ == '__main__':
 
     print(f"Average time Trapezoidal (N={N_steps_trap}): {avg_time_trap:.6e} seconds")
     print(f"Average time Simpson (N={N_steps_simp}):    {avg_time_simp:.6e} seconds")
+
+    print("==========================Question 1D==============================================")
+    N1 = 16
+    N2 = 32
+
+    T1 = trapezoidal_int(f, N_steps=N1, lower_limit=a, upper_limit=b)
+    T2 = trapezoidal_int(f, N_steps=N2, lower_limit=a, upper_limit=b)
+
+    error_est = (T2-T1)/3
+
+    print(f"N1 = {N1:2d}, T1 = {T1:.10f}")
+    print(f"N2 = {N2:2d}, T2 = {T2:.10f}")
+    print(f"Estimated error (|T2–T1|/3) = {abs(error_est):.10e}")
+    print(f"Actual error at N2          = {abs(T2 - exact_val):.10e}")
