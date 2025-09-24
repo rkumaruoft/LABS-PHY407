@@ -12,9 +12,9 @@ if __name__ == "__main__":
     boring_val = 2 * np.pi * np.sqrt(mass / spring_const)
 
     N_points = 4000
-    x0_range = np.linspace(1, x_c, N_points)
+    x0_range = np.linspace(1, 10*x_c, N_points)
 
-    N_quad = 2000
+    N_quad = 200
     periods = []
     for x0 in x0_range:
         periods.append(gaussian_quad(period_integrand(x0, mass, spring_const),
@@ -24,13 +24,11 @@ if __name__ == "__main__":
 
     plt.figure(figsize=(8, 5))
 
-    plt.plot(x0_range, periods, label="Gaussian Quad", lw=2)
-
-    # Boring harmonic oscillator (constant)
+    plt.plot(x0_range, periods, marker=".", linestyle="None", markersize=1,
+             label="Gaussian Quad")
+    # classical limit
     plt.axhline(y=boring_val, color="r", linestyle="--", lw=2,
                 label=r"Classical Limit $T = 2\pi\sqrt{m/k}$")
-
-    plt.axvline(x=135940842.4)
 
     # Relativistic limit
     plt.plot(x0_range, relative_limit_curve, "g--", lw=2, label=r"Relativistic Limit $4x_0/c$")
