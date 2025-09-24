@@ -57,7 +57,6 @@ if __name__ == "__main__":
     plt.plot(x_vals_2, f_vals_2, "s-", label="N=16")
     plt.xlabel("x (m)")
     plt.ylabel(r"$f(x) = 4/v(x)$")
-    plt.title("Unweighted integrand at Gauss nodes")
     plt.grid(True)
     plt.legend()
     plt.show()
