@@ -6,7 +6,7 @@ from Lab02_Q2_b import bessel_integrand
 
 if __name__ == "__main__":
     N_steps = 1000
-    # z at m=3, n=2 ≈ 11.620
+    # z at m=3, n=2` ≈ 11.620
     z = 11.620
     bessel_order = 2
     Nr = 201
