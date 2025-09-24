@@ -68,3 +68,7 @@ def gaussian_quad(diff_func, N_steps, lower_limit, upper_limit):
         I += w[k] * diff_func(x[k])
     # print
     return I
+
+
+def get_fraction_err(val1, val2):
+    return np.abs(val1 - val2) / val2
