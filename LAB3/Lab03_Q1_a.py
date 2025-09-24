@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import sympy
 import time
 from pylab import *
-from LABS.common_funcs import *
+from common_funcs import *
 
 def f(x):
     return 4 / (1 + x ** 2)
