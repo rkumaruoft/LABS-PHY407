@@ -66,6 +66,6 @@ def gaussian_quad(diff_func, N_steps, lower_limit, upper_limit):
     I = 0.
     # loop over sample points to compute integral
     for k in range(N):
-        I += w[k] * f(x[k])
+        I += w[k] * diff_func(x[k])
     # print
     print(I)
