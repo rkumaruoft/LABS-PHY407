@@ -32,7 +32,7 @@ def simpson_int(diff_func, N_steps, lower_limit, upper_limit):
                    4 * sum1 + 2 * sum2)
     return s
 
- def gaussxw(N):
+def gaussxw(N):
     # Initial approximation to roots of the Legendre polynomial
     a = np.linspace(3,4*N-1,N)/(4*N+2)
     x = np.cos(pi*a+1/(8*N*N*np.tan(a)))
@@ -69,3 +69,7 @@ def gaussian_quad(diff_func, N_steps, lower_limit, upper_limit):
         I += w[k] * diff_func(x[k])
     # print
     print(I)
+
+if __name__ == '__main__':
+    gaussian_quad(f, 1, 1, 1)
+    #TEST
