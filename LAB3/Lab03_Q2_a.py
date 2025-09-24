@@ -1,18 +1,20 @@
 from common_funcs import *
 import scipy.constants as consts
-
+import os
 
 def spring_v_func(x, x_0, mass, spring_const):
     c = consts.c
     val_1 = spring_const * ((x_0 ** 2) - (x ** 2))
     val_2 = mass * (c ** 2)
-    numerator = val_1 * ((2 * val_2) + (val_1 / 2))
-    denominator = 2 * ((val_2 + (val_1 / 2)) ** 2)
+    r = val_1 / val_2
+    numerator = r * (1 + r/4)
+    denominator = (1 + r/2) ** 2
     return c * np.sqrt(numerator / denominator)
 
 
 def diff_period(x, x_0, mass, spring_const):
-    return 4 / spring_v_func(x, x_0, mass, spring_const)
+    val = spring_v_func(x, x_0, mass, spring_const)
+    return 4 / val
 
 
 def period_integrand(x_0, mass, spring_const):
@@ -34,6 +36,7 @@ if __name__ == "__main__":
     x_vals_1, weights_1 = gaussxwab(N_1, 0, x_0)
     N_1_result = gaussian_quad(period_integrand(x_0, mass, spring_const), N_1, 0, x_0)
 
+    print("------------------------------------------------------------")
     # case 2 x_0 = 1cm N_2 = 16
     x_0 = 1e-2
     x_vals_2, weights_2 = gaussxwab(N_2, 0, x_0)
@@ -52,6 +55,8 @@ if __name__ == "__main__":
     f_vals_1 = [4 / spring_v_func(x, x_0, mass, spring_const) for x in x_vals_1]
     f_vals_2 = [4 / spring_v_func(x, x_0, mass, spring_const) for x in x_vals_2]
 
+    os.makedirs("plots", exist_ok=True)
+
     plt.figure(figsize=(6, 4))
     plt.plot(x_vals_1, f_vals_1, "o-", label="N=8")
     plt.plot(x_vals_2, f_vals_2, "s-", label="N=16")
@@ -59,6 +64,7 @@ if __name__ == "__main__":
     plt.ylabel(r"$f(x) = 4/v(x)$")
     plt.grid(True)
     plt.legend()
+    plt.savefig("plots/unweighted_fx.png", dpi=300, bbox_inches="tight")
     plt.show()
 
     # ---------- Plot 2: Weighted contributions ----------
@@ -72,4 +78,18 @@ if __name__ == "__main__":
     plt.ylabel(r"$f4 * w_i / v(x)$")
     plt.grid(True)
     plt.legend()
+    plt.savefig("plots/weighted_fx.png", dpi=300, bbox_inches="tight")
     plt.show()
+
+    # For 2c  0.3 > Estimate  > 0.15
+    # # steps
+    # N = 200
+    #
+    # # case 1 x_0 = 1cm N_1 = 8
+    # x_0 = 1e-2
+    # N_result = gaussian_quad(period_integrand(x_0, mass, spring_const), N, 0, x_0)
+    #
+    # print("Boring Value: ", boring_val)
+    # print("200 steps integration :", N_result)
+    # print("N fraction error: ", get_fraction_err(N_result, boring_val) * 100)
+
