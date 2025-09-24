@@ -59,17 +59,24 @@ def gaussxwab(N, a, b):
 def gaussian_quad(diff_func, N_steps, lower_limit, upper_limit):
     h = (upper_limit - lower_limit) / N_steps
     # define N
-    N = 10
+    N = N_steps
     # call gausswx for xi, wi
-    x, w = gaussxw(N)
+    x, w = gaussxwab(N, lower_limit, upper_limit)
     # initialize integral to 0.
     I = 0.
     # loop over sample points to compute integral
     for k in range(N):
         I += w[k] * diff_func(x[k])
     # print
-    print(I)
+    return I
 
 if __name__ == '__main__':
-    gaussian_quad(f, 1, 1, 1)
-    #TEST
+    #defining variables
+    lower_limit = 0
+    upper_limit = 1
+    N_steps = 8
+    diff_func = f
+
+    print(trapezoidal_int(diff_func, N_steps, lower_limit, upper_limit))
+    print(simpson_int(diff_func, N_steps, lower_limit, upper_limit))
+    print(gaussian_quad(diff_func, N_steps, lower_limit, upper_limit))
