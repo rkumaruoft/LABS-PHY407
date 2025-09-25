@@ -31,7 +31,6 @@ if __name__ == '__main__':
 
     Ns = [2 ** k for k in range(3, 11)] #8 to 2048
 
-
     trap_err, trap_est = compute_errors(trapezoidal_int)
     simp_err, simp_est = compute_errors(simpson_int)
     gauss_err, gauss_est = compute_errors(gaussian_quad)
