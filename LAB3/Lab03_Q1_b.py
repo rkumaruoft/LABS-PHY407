@@ -47,7 +47,7 @@ if __name__ == '__main__':
     rel_err = get_fraction_err(I_over_I0, I_over_I0_scipy)
 
     #Plotting
-    plt.figure(figsize=(9, 5))
+    plt.figure(0)
     plt.plot(x, I_over_I0_scipy, label='I/I0 (SciPy)', color='C0', lw=1.6)
     plt.plot(x, I_over_I0, '--', label=f'I/I0 (Gauss N={N_gauss})', color='C1', lw=1.0)
     plt.ylabel('I / I0')
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     plt.grid(True)
     plt.tight_layout()
 
-    plt.figure(figsize=(9, 3))
+    plt.figure(1)
     plt.semilogy(x, rel_err, color='C2')
     plt.xlabel('x (m)')
     plt.ylabel('Relative difference')
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     print("DONE!")
 
     #Plotting
-    plt.figure(figsize=(8, 4))
+    plt.figure(2)
     plt.plot(Ns, max_rel, '-o', color='C3')
     plt.xlabel('N (number of Gauss points)')
     plt.ylabel('Max relative difference')
