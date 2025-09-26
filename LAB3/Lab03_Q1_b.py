@@ -35,6 +35,7 @@ if __name__ == '__main__':
             S_g[i] = gaussian_quad(der_S, N_gauss, ui, 0.0)
         if i % 100 == 0:
             print(i)
+
     #Intensity ratio I/I0
     I_over_I0 = (2.0 * C_g + 1.0)**2 + (2.0 * S_g + 1.0)**2
 
