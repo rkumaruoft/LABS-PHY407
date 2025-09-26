@@ -59,7 +59,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(9, 3))
     plt.semilogy(x, rel_err, color='C2')
     plt.xlabel('x (m)')
-    plt.ylabel('relative difference')
+    plt.ylabel('Relative difference')
     plt.grid(True, which='both', ls=':')
     plt.tight_layout()
     plt.show()
