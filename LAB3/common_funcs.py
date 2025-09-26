@@ -77,3 +77,4 @@ def exact_int(diff_func, lower_limit, upper_limit):
 
 def get_fraction_err(val1, val2):
     return np.abs(val1 - val2) / val2
+

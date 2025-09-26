@@ -23,7 +23,6 @@ def compute_errors(int_method):
     return rel_errors, est_rel_errors
 
 if __name__ == '__main__':
-
     lower_limit = 0.0
     upper_limit = 1.0
     diff_func = lambda x: 4.0 / (1.0 + x ** 2)
