@@ -100,7 +100,7 @@ if __name__ == '__main__':
     plt.figure(figsize=(8, 4))
     plt.plot(Ns, max_rel, '-o', color='C3')
     plt.xlabel('N (number of Gauss points)')
-    plt.ylabel('max relative difference')
+    plt.ylabel('Max relative difference')
     plt.title('Max relative difference vs N')
     plt.grid(True)
     plt.tight_layout()
