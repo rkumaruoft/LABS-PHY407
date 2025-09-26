@@ -35,7 +35,7 @@ if __name__ == '__main__':
     gauss_err, gauss_est = compute_errors(gaussian_quad)
 
     #plotting
-    plt.figure(figsize=(8, 5))
+    plt.figure(0)
     plt.loglog(Ns, trap_err, 'o-', label='Trapezoid true rel error')
     plt.loglog(Ns, trap_est, 'x--', label='Trapezoid estimate |I2N - IN|/|I_true|')
     plt.loglog(Ns, simp_err, 's-', label='Simpson true rel error')
