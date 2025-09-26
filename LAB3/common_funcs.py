@@ -78,3 +78,8 @@ def exact_int(diff_func, lower_limit, upper_limit):
 def get_fraction_err(val1, val2):
     return np.abs(val1 - val2) / val2
 
+def der_C(t):
+    return np.cos(0.5 * np.pi * t**2)
+
+def der_S(t):
+    return np.sin(0.5 * np.pi * t**2)

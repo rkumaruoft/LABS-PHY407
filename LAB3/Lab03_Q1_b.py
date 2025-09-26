@@ -3,12 +3,6 @@ import matplotlib.pyplot as plt
 import scipy.special as sc
 from common_funcs import *
 
-def der_C(t):
-    return np.cos(0.5 * np.pi * t**2)
-
-def der_S(t):
-    return np.sin(0.5 * np.pi * t**2)
-
 if __name__ == '__main__':
     #Parameters
     lam = 1.0
