@@ -34,7 +34,7 @@ if __name__ == '__main__':
             C_g[i] = gaussian_quad(der_C, N_gauss, ui, 0.0)
             S_g[i] = gaussian_quad(der_S, N_gauss, ui, 0.0)
         if i % 100 == 0:
-            print(i)
+            print("i = ", i)
 
     #Intensity ratio I/I0
     I_over_I0 = (2.0 * C_g + 1.0)**2 + (2.0 * S_g + 1.0)**2
@@ -62,6 +62,49 @@ if __name__ == '__main__':
     plt.ylabel('Relative difference')
     plt.grid(True, which='both', ls=':')
     plt.tight_layout()
+    plt.show()
+
+    #------------------------------------------------------------------
+
+    #Relative difference as a function of N
+    print("Relative difference as a function of N:")
+
+    Ns = np.arange(3, 51)
+    max_rel = np.zeros_like(Ns, dtype=float)
+
+    S_ref = S_scipy
+    C_ref = C_scipy
+    I_ref = I_over_I0_scipy
+
+    for idx, N in enumerate(Ns):
+        Ctmp = np.zeros_like(u)
+        Stmp = np.zeros_like(u)
+        for i, ui in enumerate(u):
+            if ui == 0.0:
+                Ctmp[i] = 0.0
+                Stmp[i] = 0.0
+            elif ui > 0.0:
+                Ctmp[i] = gaussian_quad(der_C, N, 0.0, ui)
+                Stmp[i] = gaussian_quad(der_S, N, 0.0, ui)
+            else:
+                Ctmp[i] = gaussian_quad(der_C, N, ui, 0.0)
+                Stmp[i] = gaussian_quad(der_S, N, ui, 0.0)
+        Itmp = (2.0 * Ctmp + 1.0) ** 2 + (2.0 * Stmp + 1.0) ** 2
+        rel = get_fraction_err(Itmp, I_ref)
+        max_rel[idx] = np.max(rel)
+
+        print(f"N = {N}  max relative diff = {max_rel[idx]}")
+    print("DONE!")
+
+    #Plotting
+    plt.figure(figsize=(8, 4))
+    plt.plot(Ns, max_rel, '-o', color='C3')
+    plt.xlabel('N (number of Gauss points)')
+    plt.ylabel('max relative difference')
+    plt.title('Max relative difference vs N')
+    plt.grid(True)
+    plt.tight_layout()
+
     plt.show()
 
 
