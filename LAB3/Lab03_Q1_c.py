@@ -5,7 +5,7 @@ from common_funcs import *
 
 if __name__ == '__main__':
     #Parameters
-    lam = 1
+    lam = 4
     x_min, x_max = -3, 10
     z_min, z_max = 1, 5
     Nx = 256

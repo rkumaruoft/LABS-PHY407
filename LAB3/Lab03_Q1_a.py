@@ -25,7 +25,7 @@ def compute_errors(int_method):
 if __name__ == '__main__':
     lower_limit = 0.0
     upper_limit = 1.0
-    diff_func = lambda x: 4.0 / (1.0 + x ** 2)
+    diff_func = f
     I_true = float(exact_int(diff_func, lower_limit, upper_limit))
 
     Ns = [2 ** k for k in range(3, 11)] #8 to 2048
@@ -33,6 +33,8 @@ if __name__ == '__main__':
     trap_err, trap_est = compute_errors(trapezoidal_int)
     simp_err, simp_est = compute_errors(simpson_int)
     gauss_err, gauss_est = compute_errors(gaussian_quad)
+
+    #print(int_method(diff_func, N, lower_limit, upper_limit))
 
     #plotting
     plt.figure(0)
