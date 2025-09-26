@@ -69,6 +69,12 @@ def gaussian_quad(diff_func, N_steps, lower_limit, upper_limit):
     # print
     return I
 
+def exact_int(diff_func, lower_limit, upper_limit):
+    # sympy integration for reference
+    xs = sympy.Symbol('xs', real=True)  # the variable of integration
+    return sympy.integrate(diff_func(xs), (xs, lower_limit, upper_limit))
+
 
 def get_fraction_err(val1, val2):
     return np.abs(val1 - val2) / val2
+
