@@ -5,6 +5,7 @@ import os
 
 if __name__ == "__main__":
 
+    os.makedirs("plots", exist_ok=True)
     mass = 1.0  # kg
     spring_const = 12.0  # N/m
     x_c = consts.c * sqrt(mass / spring_const)
