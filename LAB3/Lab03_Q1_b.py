@@ -44,6 +44,7 @@ if __name__ == '__main__':
     plt.figure(0)
     plt.plot(x, I_over_I0_scipy, label='I/I0 (SciPy)', color='C0', lw=1.6)
     plt.plot(x, I_over_I0, '--', label=f'I/I0 (Gauss N={N_gauss})', color='C1', lw=1.0)
+    plt.xlabel('x (m)')
     plt.ylabel('I / I0')
     plt.title('Near-field diffraction by a straight edge (λ=1 m, z=3 m)')
     plt.legend()

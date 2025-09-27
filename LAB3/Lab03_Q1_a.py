@@ -9,7 +9,6 @@ import math
 def f(x):
     return 4 / (1 + x ** 2)
 
-
 def compute_errors(int_method):
     rel_errors = []
     est_rel_errors = []
@@ -26,15 +25,28 @@ if __name__ == '__main__':
     lower_limit = 0.0
     upper_limit = 1.0
     diff_func = f
+
     I_true = float(exact_int(diff_func, lower_limit, upper_limit))
 
     Ns = [2 ** k for k in range(3, 11)] #8 to 2048
 
+    #Printing estimations for a given N
+    print("\nTrapezoidal integration:")
+    for N in Ns:
+        print("N =", N, "estimation =", trapezoidal_int(diff_func, N, lower_limit, upper_limit))
+
+    print("\nSimpson integration:")
+    for N in Ns:
+        print("N =", N, "estimation =", simpson_int(diff_func, N, lower_limit, upper_limit))
+
+    print("\nGaussian quadrature:")
+    for N in Ns:
+        print("N =", N, "estimation =", gaussian_quad(diff_func, N, lower_limit, upper_limit))
+
+
     trap_err, trap_est = compute_errors(trapezoidal_int)
     simp_err, simp_est = compute_errors(simpson_int)
     gauss_err, gauss_est = compute_errors(gaussian_quad)
-
-    #print(int_method(diff_func, N, lower_limit, upper_limit))
 
     #plotting
     plt.figure(0)
