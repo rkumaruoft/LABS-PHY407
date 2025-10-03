@@ -107,7 +107,7 @@ def plot_results(N_values, timings_mean, errors_mean):
 
 if __name__ == '__main__':
     N_values = np.arange(5, 300, 5)
-    timings_mean, errors_mean = run_experiment(N_values, trials=3, seed=2025)
+    timings_mean, errors_mean = run_experiment(N_values, trials=3, seed=8675309)
 
     plot_results(N_values, timings_mean, errors_mean)
 
