@@ -6,6 +6,7 @@ from pylab import *
 from common_funcs import *
 import math
 
+
 def f(x):
     return 4 / (1 + x ** 2)
 
@@ -21,6 +22,7 @@ def compute_errors(int_method):
         est_rel_errors.append(est_rel)
     return rel_errors, est_rel_errors
 
+
 if __name__ == '__main__':
     lower_limit = 0.0
     upper_limit = 1.0
@@ -28,7 +30,7 @@ if __name__ == '__main__':
 
     I_true = float(exact_int(diff_func, lower_limit, upper_limit))
 
-    Ns = [2 ** k for k in range(3, 11)] #8 to 2048
+    Ns = [2 ** k for k in range(3, 11)]  # 8 to 2048
 
     #Printing estimations for a given N
     print("\nTrapezoidal integration:")
@@ -48,7 +50,7 @@ if __name__ == '__main__':
     simp_err, simp_est = compute_errors(simpson_int)
     gauss_err, gauss_est = compute_errors(gaussian_quad)
 
-    #plotting
+    # plotting
     plt.figure(0)
     plt.loglog(Ns, trap_err, 'o-', label='Trapezoid true rel error')
     plt.loglog(Ns, trap_est, 'x--', label='Trapezoid estimate |I2N - IN|/|I_true|')
@@ -62,5 +64,3 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid(True, which='both', ls=':')
     plt.show()
-
-

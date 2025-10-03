@@ -2,13 +2,14 @@ from common_funcs import *
 import scipy.constants as consts
 import os
 
+
 def spring_v_func(x, x_0, mass, spring_const):
     c = consts.c
     val_1 = spring_const * ((x_0 ** 2) - (x ** 2))
     val_2 = mass * (c ** 2)
     r = val_1 / val_2
-    numerator = r * (1 + r/4)
-    denominator = (1 + r/2) ** 2
+    numerator = r * (1 + r / 4)
+    denominator = (1 + r / 2) ** 2
     return c * np.sqrt(numerator / denominator)
 
 
@@ -44,12 +45,12 @@ if __name__ == "__main__":
 
     print("Boring Value: ", boring_val)
     print("8 steps integration :", N_1_result)
-    print("N-1 fraction error: ", get_fraction_err(N_1_result, boring_val) * 100)
+    print("Percent error: ", get_fraction_err(N_1_result, boring_val) * 100)
 
     print("-----------------------------------------------------------")
     print("Boring Value: ", boring_val)
     print("16 steps integration:", N_2_result)
-    print("N-2 fraction error: ", get_fraction_err(N_2_result, boring_val) * 100)
+    print("Percent error: ", get_fraction_err(N_2_result, boring_val) * 100)
 
     # ---------- Plot 1: Unweighted f(x) ----------
     f_vals_1 = [4 / spring_v_func(x, x_0, mass, spring_const) for x in x_vals_1]
@@ -82,14 +83,13 @@ if __name__ == "__main__":
     plt.show()
 
     # For 2c  0.3 > Estimate  > 0.15
-    # # steps
-    # N = 200
-    #
-    # # case 1 x_0 = 1cm N_1 = 8
-    # x_0 = 1e-2
-    # N_result = gaussian_quad(period_integrand(x_0, mass, spring_const), N, 0, x_0)
-    #
-    # print("Boring Value: ", boring_val)
-    # print("200 steps integration :", N_result)
-    # print("N fraction error: ", get_fraction_err(N_result, boring_val) * 100)
+    # steps
+    N = 200
 
+    # case 1 x_0 = 1cm N_1 = 8
+    x_0 = 1e-2
+    N_result = gaussian_quad(period_integrand(x_0, mass, spring_const), N, 0, x_0)
+
+    print("Boring Value: ", boring_val)
+    print("200 steps integration :", N_result)
+    print("N fraction error: ", get_fraction_err(N_result, boring_val) * 100)

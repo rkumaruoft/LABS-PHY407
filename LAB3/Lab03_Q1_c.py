@@ -4,24 +4,24 @@ import scipy.special as sc
 from common_funcs import *
 
 if __name__ == '__main__':
-    #Parameters
+    # Parameters
     lam = 4
     x_min, x_max = -3, 10
     z_min, z_max = 1, 5
     Nx = 256
     Nz = 256
 
-    #Gauss quadrature points
+    # Gauss quadrature points
     N_gauss = 50
 
-    #Create grid
+    # Create grid
     x = np.linspace(x_min, x_max, Nx)
     z = np.linspace(z_min, z_max, Nz)
-    X, Z = np.meshgrid(x, z)     # Z rows, X columns
+    X, Z = np.meshgrid(x, z)  # Z rows, X columns
 
     U = X * np.sqrt(2.0 / (lam * Z))
 
-    #Arrays for C, S, and intensity
+    # Arrays for C, S, and intensity
     C_grid = np.zeros_like(U)
     S_grid = np.zeros_like(U)
 
@@ -40,9 +40,9 @@ if __name__ == '__main__':
 
         print(f"{iz + 1} out of {Nz}")
 
-    I_grid = (2.0 * C_grid + 1.0)**2 + (2.0 * S_grid + 1.0)**2
+    I_grid = (2.0 * C_grid + 1.0) ** 2 + (2.0 * S_grid + 1.0) ** 2
 
-    #Plotting
+    # Plotting
     plt.figure(0)
     extent = [x_min, x_max, z_max, z_min]
     im = plt.imshow(I_grid, extent=extent, aspect='auto', cmap='inferno')

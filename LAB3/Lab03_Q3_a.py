@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     plt.figure()
     plt.loglog(h_range, forward_errors, marker=".", linestyle="-", label="Forward difference error")
-    plt.loglog(h_range, central_errors, marker=".", linestyle="-", label="Central difference error")
+    plt.loglog(h_range, central_errors, marker=".", linestyle="--", label="Central difference error")
     plt.axvline(x=10**-8)
     plt.xlabel("Step size (h)")
     plt.ylabel("Absolute Error")
