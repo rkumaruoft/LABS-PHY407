@@ -6,6 +6,8 @@
 # Based on gausselim.py from Newman
 
 # The following will be useful for partial pivoting
+import time
+from scipy.linalg import lu_factor, lu_solve
 from numpy import array, empty, copy as np
 import numpy as np
 
@@ -90,26 +92,15 @@ def PartialPivot(A_in, v_in, m):
 
     return A_copy, v_copy, pivot_row
 
+def solve_with_lu(A, v):
+    A_f = np.copy(A).astype(float)
+    v_f = np.copy(v).astype(float)
+    lu, piv = lu_factor(A_f)
+    return lu_solve((lu, piv), v_f)
+
 if __name__ == '__main__':
-    #A_in = 1
-    #v_in = 1
-    #PartialPivot(A_in, v_in)
+    print("Example:")
 
-    #test matrix
-    test_matrix = np.array([
-        [ 2, 1, 4, 1],
-        [ 3, 4, -1, -1],
-        [ 1, -4, 1, 5],
-        [ 2, -2, 1, 3]
-    ], dtype=float)
-    test_v = [-4, 3, 9, 7]
-
-    print(GaussElim(test_matrix, test_v))
-    #print(test_matrix)
-    #print(PartialPivot(test_matrix, test_v, 1))
-
-    print("\nExample:")
-    # Example 1: simple 3x3 system
     A1 = array([[0.0, 2.0, 1.0],
                 [1.0, -2.0, -3.0],
                 [2.0, 1.0, 1.0]])
@@ -118,7 +109,6 @@ if __name__ == '__main__':
     print("Example 1 solution (GaussElim):", x1)
     print("Example 1 solution (numpy):   ", np.linalg.solve(A1, b1))
 
-    # Example 2: system demonstrating need for pivoting (small pivot at A[0,0])
     eps = 1e-12
     A2 = array([[eps, 1.0, 1.0],
                 [1.0, 2.0, 3.0],
