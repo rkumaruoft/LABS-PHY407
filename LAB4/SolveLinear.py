@@ -9,24 +9,46 @@
 from numpy import array, empty, copy as np
 import numpy as np
 
-
 def GaussElim(A_in, v_in):
-    """Implement Gaussian Elimination. This should be non-destructive for input
-    arrays, so we will copy A and v to
-    temporary variables
-    IN:
-    A_in, the matrix to pivot and triangularize
-    v_in, the RHS vector
-    OUT:
-    x, the vector solution of A_in x = v_in """
     # copy A and v to temporary variables using copy command
-    A = np.copy(A_in)
-    v = np.copy(v_in)
+    A = np.copy(A_in).astype(float)
+    v = np.copy(v_in).astype(float)
     N = len(v)
 
     for m in range(N):
         # Divide by the diagonal element
         div = A[m, m]
+        A[m, :] /= div
+        v[m] /= div
+
+        # Now subtract from the lower rows
+        for i in range(m+1, N):
+            mult = A[i, m]
+            A[i, :] -= mult*A[m, :]
+            v[i] -= mult*v[m]
+
+    # Backsubstitution
+    # create an array of the same type as the input array
+    x = empty(N, dtype=v.dtype)
+    for m in range(N-1, -1, -1):
+        x[m] = v[m]
+        for i in range(m+1, N):
+            x[m] -= A[m, i]*x[i]
+    return x
+
+def GaussElimPP(A_in, v_in):
+    """Gaussian Elimination with partial pivoting (non-destructive)."""
+    # copy A and v to temporary variables using copy command
+    A = np.copy(A_in).astype(float)
+    v = np.copy(v_in).astype(float)
+    N = len(v)
+
+    for m in range(N):
+        # Divide by the diagonal element
+        A, v, _ = PartialPivot(A, v, m)
+        div = A[m, m]
+        if np.isclose(div, 0.0):
+            raise ValueError(f"Zero pivot encountered at row {m}")
         A[m, :] /= div
         v[m] /= div
 
@@ -68,17 +90,6 @@ def PartialPivot(A_in, v_in, m):
 
     return A_copy, v_copy, pivot_row
 
-def random_matrix(N, make_well_conditioned=True):
-    """Create a random NxN matrix A and random RHS v.
-    If make_well_conditioned is True, add N*I to reduce chance of singularity.
-    """
-    A = np.random.randn(N, N)
-    if make_well_conditioned:
-        A += N * np.eye(N)
-    v = np.random.randn(N)
-    return A.astype(float), v.astype(float)
-
-
 if __name__ == '__main__':
     #A_in = 1
     #v_in = 1
@@ -94,5 +105,25 @@ if __name__ == '__main__':
     test_v = [-4, 3, 9, 7]
 
     print(GaussElim(test_matrix, test_v))
-    print(test_matrix)
-    print(PartialPivot(test_matrix, test_v))
+    #print(test_matrix)
+    #print(PartialPivot(test_matrix, test_v, 1))
+
+    print("\nExample:")
+    # Example 1: simple 3x3 system
+    A1 = array([[0.0, 2.0, 1.0],
+                [1.0, -2.0, -3.0],
+                [2.0, 1.0, 1.0]])
+    b1 = array([3.0, -6.0, 1.0])
+    x1 = GaussElimPP(A1, b1)
+    print("Example 1 solution (GaussElim):", x1)
+    print("Example 1 solution (numpy):   ", np.linalg.solve(A1, b1))
+
+    # Example 2: system demonstrating need for pivoting (small pivot at A[0,0])
+    eps = 1e-12
+    A2 = array([[eps, 1.0, 1.0],
+                [1.0, 2.0, 3.0],
+                [4.0, 5.0, 6.0]])
+    b2 = array([2.0, 5.0, 15.0])
+    x2 = GaussElimPP(A2, b2)
+    print("Example 2 solution (GaussElim):", x2)
+    print("Example 2 solution (numpy):   ", np.linalg.solve(A2, b2))
