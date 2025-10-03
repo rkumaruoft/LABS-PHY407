@@ -72,10 +72,10 @@ if __name__ == "__main__":
     psi_0_sq = np.abs(psi_0) ** 2
     psi_1_sq = np.abs(psi_1) ** 2
     psi_2_sq = np.abs(psi_2) ** 2
-    plt.plot(x, psi_0_sq, color="blue", label=r"$|\psi_0(x)|^2$")
-    plt.plot(x, psi_1_sq, color="red", label=r"$|\psi_1(x)|^2$")
-    plt.plot(x, psi_2_sq, color="green", label=r"$|\psi_2(x)|^2$")
-    plt.xlabel("x (m)")
+    plt.plot(x * 1e9, psi_0_sq, color="blue", label=r"$|\psi_0(x)|^2$")
+    plt.plot(x * 1e9, psi_1_sq, color="red", label=r"$|\psi_1(x)|^2$")
+    plt.plot(x * 1e9, psi_2_sq, color="green", label=r"$|\psi_2(x)|^2$")
+    plt.xlabel("x (nm)")
     plt.ylabel(r"Probability Density $|\psi_n(x)|^2$")
     plt.grid(True)
     plt.legend()
