@@ -19,17 +19,18 @@ if __name__ == "__main__":
     y = np.sqrt(np.sin(np.pi * u_range / 20e-6) ** 2)
     y[np.abs(u_range) > w / 2] = 0
 
-    # DFT
+    # FFT
     c_k = np.fft.fft(y)
     k = np.fft.fftfreq(N, d=W / N)
     x_k = (wavelength * focal_length / W) * k
 
     I = (W ** 2 / N ** 2) * np.abs(c_k) ** 2
+    I = I / np.max(I)
 
     # plot like reference code
     plt.scatter(x_k, I, marker='.', linewidth=1)
     plt.xlim(-5, 5)
-    plt.xlabel('x (cm)')
+    plt.xlabel('x (m)')
     plt.ylabel('Intensity')
     plt.title('Diffraction Intensity Pattern')
     plt.savefig("Plots/diffraction_pattern.png", dpi=300, bbox_inches="tight")
