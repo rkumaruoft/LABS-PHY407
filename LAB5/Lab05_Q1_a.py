@@ -46,7 +46,7 @@ if __name__ == "__main__":
     plt.close()
 
     # sawtooth wave
-    saw_x = np.linspace(0, 1, 1000, endpoint=False)
+    saw_x = np.linspace(0, 2, 1000, endpoint=False)
     saw_y = sawtooth_wave(saw_x, 1)
 
     plt.figure()
