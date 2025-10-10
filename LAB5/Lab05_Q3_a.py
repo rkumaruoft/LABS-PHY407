@@ -20,7 +20,6 @@ def reconstruct_m(SLP_hat, m):
         hat[:, (-m_idx) % nlon] = SLP_hat[:, (-m_idx) % nlon]
     return np.fft.ifft(hat, axis=1).real
 
-#Reconstruct fields
 field_m3 = reconstruct_m(SLP_hat, 3)
 field_m5 = reconstruct_m(SLP_hat, 5)
 
