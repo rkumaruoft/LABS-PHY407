@@ -1,8 +1,9 @@
 import numpy as np
 
+
 # Simple relaxation method to solve x = 1 - exp(-c * x)
 def relaxation(c, initial_guess, convergence=1e-6, max_iter=10000):
-    x = initial_guess   # start from initial guess
+    x = initial_guess  # start from initial guess
     iterations = 0
     while iterations < max_iter:
         # Iteration formula for relaxation method
@@ -22,7 +23,7 @@ def relaxation(c, initial_guess, convergence=1e-6, max_iter=10000):
 
 # Over-relaxation method (adds acceleration factor omega)
 def overrelaxation(c, initial_guess, omega, convergence=1e-6, max_iter=10000):
-    x = initial_guess   # start from initial guess
+    x = initial_guess  # start from initial guess
     iterations = 0
     while iterations < max_iter:
         # Over-relaxation iteration formula
