@@ -54,7 +54,7 @@ if __name__ == "__main__":
         s = signal - np.mean(signal)
         nfft = int(2 ** np.ceil(np.log2(len(s) * p_factor)))
         S = np.fft.rfft(s, n=nfft)
-        freqs = np.fft.rfftfreq(nfft, dt)  # Hz
+        freqs = np.fft.rfftfreq(nfft, dt)
         amp = np.abs(S)
         amp_norm = amp / amp.max() if amp.max() != 0 else amp
         return freqs, amp, amp_norm
