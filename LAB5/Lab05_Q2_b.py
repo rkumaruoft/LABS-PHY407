@@ -21,15 +21,8 @@ N_Points = len(channel_0)
 nsamples = data.shape[0]
 time_index = np.arange(nsamples) / float(sample)
 
-#convert integer audio to float in [-1, 1] for plotting amplitude
-if np.issubdtype(data.dtype, np.integer):
-    dtype_info = np.iinfo(data.dtype)
-    scale = max(abs(dtype_info.min), abs(dtype_info.max))
-    channel_0_plot = channel_0.astype(np.float32) / scale
-    channel_1_plot = channel_1.astype(np.float32) / scale
-else:
-    channel_0_plot = channel_0.astype(np.float32)
-    channel_1_plot = channel_1.astype(np.float32)
+channel_0_plot = channel_0.astype(np.float32)
+channel_1_plot = channel_1.astype(np.float32)
 
 #Plot channel 0
 plt.figure(figsize=(10, 3.5))
