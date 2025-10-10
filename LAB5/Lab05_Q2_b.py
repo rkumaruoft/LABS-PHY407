@@ -85,3 +85,106 @@ data_out[:, 1] = channel_1_filt
 
 write("GraviteaTime_lpf", sample, data_out)
 
+
+#PLOTTING:
+
+#creating a small slice to plot
+SHORT_SEC = 0.05
+n_short = int(np.round(SHORT_SEC * sample))
+if n_short < 1:
+    n_short = 1
+short_slice = slice(0, min(n_short, nsamples))
+
+# Channel 0 original FFT amplitude
+plt.figure(figsize=(10, 4))
+plt.plot(freqs, fft0_amp_original, linewidth=0.6, color='C0')
+plt.axvline(CUTOFF_HZ, color='red', linestyle='--', linewidth=0.8)
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.title('Channel 0 Original FFT Amplitude')
+plt.xlim(0, min(sample/2, CUTOFF_HZ * 5))
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 0 filtered FFT amplitude
+plt.figure(figsize=(10, 4))
+plt.plot(freqs, fft0_amp_filt, linewidth=0.6, color='C1')
+plt.axvline(CUTOFF_HZ, color='red', linestyle='--', linewidth=0.8)
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.title('Channel 0 Filtered FFT Amplitude')
+plt.xlim(0, min(sample/2, CUTOFF_HZ * 5))
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 0 original short-time waveform
+plt.figure(figsize=(10, 3.5))
+plt.plot(time_index[short_slice], channel_0_plot[short_slice], linewidth=0.6, color='C0')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title(f'Channel 0 Original Time (first {SHORT_SEC} s)')
+plt.xlim(time_index[short_slice.start], time_index[short_slice.stop - 1])
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 0 filtered short-time waveform
+plt.figure(figsize=(10, 3.5))
+plt.plot(time_index[short_slice], channel_0_filt_plot[short_slice], linewidth=0.8, color='green')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title(f'Channel 0 Filtered Time (first {SHORT_SEC} s)')
+plt.xlim(time_index[short_slice.start], time_index[short_slice.stop - 1])
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 1 original FFT amplitude
+plt.figure(figsize=(10, 4))
+plt.plot(freqs, fft1_amp_original, linewidth=0.6, color='C0')
+plt.axvline(CUTOFF_HZ, color='red', linestyle='--', linewidth=0.8)
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.title('Channel 1 Original FFT Amplitude')
+plt.xlim(0, min(sample/2, CUTOFF_HZ * 5))
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 1 filtered FFT amplitude
+plt.figure(figsize=(10, 4))
+plt.plot(freqs, fft1_amp_filt, linewidth=0.6, color='C1')
+plt.axvline(CUTOFF_HZ, color='red', linestyle='--', linewidth=0.8)
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.title('Channel 1 Filtered FFT Amplitude')
+plt.xlim(0, min(sample/2, CUTOFF_HZ * 5))
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 1 original short-time waveform
+plt.figure(figsize=(10, 3.5))
+plt.plot(time_index[short_slice], channel_1_plot[short_slice], linewidth=0.6, color='C3')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title(f'Channel 1 Original Time (first {SHORT_SEC} s)')
+plt.xlim(time_index[short_slice.start], time_index[short_slice.stop - 1])
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Channel 1 filtered short-time waveform
+plt.figure(figsize=(10, 3.5))
+plt.plot(time_index[short_slice], channel_1_filt_plot[short_slice], linewidth=0.8, color='green')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title(f'Channel 1 Filtered Time (first {SHORT_SEC} s)')
+plt.xlim(time_index[short_slice.start], time_index[short_slice.stop - 1])
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+
