@@ -6,6 +6,7 @@ from common_funcs import gaussian_quad
 def period_integrand(x0, m_param, k_param):
     V0 = 0.5 * k_param * x0**2
     mc2 = m_param * c**2
+
     def integrand(x):
         xa = np.asarray(x, dtype=float)
         Vx = 0.5 * k_param * xa**2
@@ -21,6 +22,7 @@ def period_integrand(x0, m_param, k_param):
         inv = np.array(inv, dtype=float)
         inv[np.isinf(inv)] = 1e300
         return inv
+
     return integrand
 
 def v_from_p(p, m_param):
