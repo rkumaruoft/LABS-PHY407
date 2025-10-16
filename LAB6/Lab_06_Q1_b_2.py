@@ -19,7 +19,7 @@ def energy_change(dt):
 
 if __name__ == "__main__":
     dt_values = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1.0]
-    print("dt (s)\t\tΔE (Energy change)")
+    print("dt (s)\t\tΔE (Energy change)\t\tTime Taken")
     for dt in dt_values:
         start_time = time.time()
         delta_E = energy_change(dt)
