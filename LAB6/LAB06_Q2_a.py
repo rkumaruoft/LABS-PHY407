@@ -6,7 +6,6 @@ dt = 0.001
 x0_init = 0.10  # (m)
 v0_init = 0.0
 
-
 def stiffness_matrix(N):
     L = np.zeros((N, N))
     for i in range(N):
@@ -17,7 +16,6 @@ def stiffness_matrix(N):
             L[i, i + 1] = -1.0
     return L
 
-
 def eigen_analysis(N):
     L = stiffness_matrix(N)
     vals, vecs = np.linalg.eigh(L)  # symmetric
@@ -25,13 +23,11 @@ def eigen_analysis(N):
     freqs_hz = omegas / (2 * np.pi)
     return vals, vecs, omegas, freqs_hz
 
-
 def acceleration_from_positions(x):
     x = np.asarray(x, dtype=float).ravel()
     xp = np.concatenate((np.array([0.0]), x, np.array([0.0])))
     a = -kOverM * (2.0 * xp[1:-1] - xp[0:-2] - xp[2:])
     return a
-
 
 def velocity_verlet(N, T_total):
     Nt = int(np.ceil(T_total / dt))
@@ -50,7 +46,6 @@ def velocity_verlet(N, T_total):
         a = a_new
 
     return t, x, v
-
 
 def plot_time_series(t, x, title, time_window=None, figsize=(10, 6)):
     N = x.shape[1]
@@ -72,7 +67,6 @@ def plot_time_series(t, x, title, time_window=None, figsize=(10, 6)):
     plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1.0))
     plt.tight_layout()
     plt.show()
-
 
 def run_for_N(N):
     print(f'\n------N = {N}-------')
@@ -116,7 +110,6 @@ def run_for_N(N):
     plt.show()
 
     return (vals, modes, omegas, freqs_hz), (t_short, x_short), (t_long, x_long)
-
 
 if __name__ == '__main__':
     Ns = [3, 10]
