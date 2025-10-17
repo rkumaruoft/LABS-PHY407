@@ -11,6 +11,6 @@ if __name__ == "__main__":
     """
     grid = np.flipud(grid)
     plt.imshow(grid, origin='lower')
-    plt.colorbar(label='Value intensity')
+    plt.colorbar(label='intensity')
     plt.savefig("Plots/blurred.png", dpi=300, bbox_inches="tight")
     plt.show()

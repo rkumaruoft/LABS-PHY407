@@ -32,7 +32,6 @@ if __name__ == "__main__":
     plt.xlim(-5, 5)
     plt.xlabel('x (m)')
     plt.ylabel('Intensity')
-    plt.title('Diffraction Intensity Pattern')
     plt.savefig("Plots/diffraction_pattern.png", dpi=300, bbox_inches="tight")
     plt.grid(True)
     plt.show()
