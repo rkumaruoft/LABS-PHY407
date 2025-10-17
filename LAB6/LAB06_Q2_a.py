@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 kOverM = 400.0
 dt = 0.001
-x0_init = 0.10  # (m)
+x0_init = 0.10
 v0_init = 0.0
 
 def stiffness_matrix(N):
