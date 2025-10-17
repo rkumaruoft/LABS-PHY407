@@ -9,16 +9,16 @@ v0_init = 0.0
 def stiffness_matrix(N):
     L = np.zeros((N, N))
     for i in range(N):
-        L[i, i] = 2.0
+        L[i, i] = 2
         if i > 0:
-            L[i, i - 1] = -1.0
+            L[i, i - 1] = -1
         if i < N - 1:
-            L[i, i + 1] = -1.0
+            L[i, i + 1] = -1
     return L
 
 def eigen_analysis(N):
     L = stiffness_matrix(N)
-    vals, vecs = np.linalg.eigh(L)  # symmetric
+    vals, vecs = np.linalg.eigh(L)
     omegas = np.sqrt(kOverM * vals)
     freqs_hz = omegas / (2 * np.pi)
     return vals, vecs, omegas, freqs_hz
@@ -49,6 +49,7 @@ def velocity_verlet(N, T_total):
 
 def plot_time_series(t, x, title, time_window=None, figsize=(10, 6)):
     N = x.shape[1]
+
     if time_window is not None:
         tmin, tmax = time_window
         idx = np.where((t >= tmin) & (t <= tmax))[0]
@@ -63,7 +64,7 @@ def plot_time_series(t, x, title, time_window=None, figsize=(10, 6)):
         plt.plot(tplt, xplt[:, i], label=f'floor {i}')
     plt.xlabel('Time (s)')
     plt.ylabel('Displacement (m)')
-    plt.title(title)
+    print("Caption: ", title)
     plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1.0))
     plt.tight_layout()
     plt.show()
@@ -80,8 +81,8 @@ def run_for_N(N):
     else:
         omega_min = positive_omegas.min()
     period_min = 2 * np.pi / omega_min
-    short_T = max(5 * period_min, 0.5)
-    long_T = max(50 * period_min, 5.0)
+    short_T = max(2 * period_min, 0.5)
+    long_T = max(20 * period_min, 5.0)
     print(f'Using short T = {short_T:.3f} s and long T = {long_T:.3f} s for plots.')
 
     t_short, x_short, _ = velocity_verlet(N, short_T)
@@ -105,7 +106,7 @@ def run_for_N(N):
     plt.setp(baseline, visible=False)
     plt.xlabel('Mode index')
     plt.ylabel('Modal amplitude (abs)')
-    plt.title(f'N={N} Modal amplitudes from initial displacement of bottom floor')
+    print(f'Caption:  N={N} Modal amplitudes from initial displacement of bottom floor')
     plt.tight_layout()
     plt.show()
 
