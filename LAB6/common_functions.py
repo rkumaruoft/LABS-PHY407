@@ -45,7 +45,7 @@ def f(r, t, omega=1, tau=1e13, gamma=0, v_p=0, v_f=5):
     return np.array([fx, fv])
 
 
-def rungekutta4(f, r0, t_points, dt):
+def runge_kutta4(f, r0, t_points, dt):
     """
     General RK4 solver for 2D systems of form:
         dx/dt = v

@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from common_functions import rungekutta4, f
+from common_functions import runge_kutta4, f
 
 
 def energy_change(dt):
@@ -12,13 +12,13 @@ def energy_change(dt):
     b = 60
     t_points = np.arange(a, b, dt)
     r0 = np.array([1.0, 0.0])
-    x, v = rungekutta4(f, r0, t_points, dt)
+    x, v = runge_kutta4(f, r0, t_points, dt)
     E = v ** 2 + x ** 2
     return np.max(E) - np.min(E)
 
 
 if __name__ == "__main__":
-    dt_values = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1.0]
+    dt_values = [1e-4, 1e-3, 1e-2, 1e-1, 1.0]
     print("dt (s)\t\tΔE (Energy change)\t\tTime Taken")
     for dt in dt_values:
         start_time = time.time()
