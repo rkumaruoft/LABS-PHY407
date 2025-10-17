@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Parameters
+#Parameters
 kOverM = 400.0
 dt = 0.001
 mode_amp = 0.10
@@ -69,18 +69,18 @@ if __name__ == '__main__':
     print("Angular freqs (rad/s):", np.round(omegas, 6))
     print("Frequencies (Hz):", np.round(freqs_hz, 6))
 
-    # slowest nonzero mode
+    #slowest nonzero mode
     positive_omegas = omegas[omegas > 1e-12]
     omega_min = positive_omegas.min()
     period_min = 2 * np.pi / omega_min
 
-    # simulate few cycles
+    #simulate few cycles
     T_sim = max(8 * period_min, 1.0)
 
     for mode_idx in range(N):
         eigvec = modes[:, mode_idx]
 
-        # Normalize eigenvector sign and scale
+        #Normalize eigenvector sign and scale
         eigvec = eigvec / np.max(np.abs(eigvec)) * mode_amp
 
         x0 = eigvec.copy()
@@ -88,10 +88,10 @@ if __name__ == '__main__':
 
         t, x, v = velocity_verlet(N, T_sim, x0, v0)
 
-        # Plot whole time series
+        #Plot whole time series
         plot_time_series(t, x, f'N={N} Mode {mode_idx + 1} (init from eigenvector), f = {freqs_hz[mode_idx]:.6f} Hz')
 
-        # projection vs time to show single-mode oscillation
+        #projection vs time to show single-mode oscillation
         phi_j = modes[:, mode_idx]
         q = x @ phi_j
         plt.figure(figsize=(6, 3))
