@@ -37,12 +37,12 @@ if __name__ == "__main__":
 
     # initial condition for u and u'
     u0 = 0.1
-    v0 = 0.0001
+    v0 = -0.0001
     r0 = np.array([u0, v0])
 
     # time setup
     a = 1e-4
-    b = 80
+    b = 20
     dt = 1e-3
     t_points = np.arange(a, b, dt)
 
@@ -54,10 +54,12 @@ if __name__ == "__main__":
     # total x(t) reconstruction
     x_points = x0 + (v_p * t_points) + u_points
 
+    plt.figure(figsize=(8, 5))
     plt.plot(t_points, u_points, label="u(t) — perturbation")
     plt.plot(t_points, x_points, label="x(t) = x₀ + vₚt + u(t)")
     plt.xlabel("Time (s)")
-    plt.ylabel("Displacement")
+    plt.ylabel("Amplitude")
     plt.legend()
     plt.grid(True)
+    plt.savefig("plots/ut.png", dpi=300, bbox_inches="tight")
     plt.show()

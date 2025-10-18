@@ -42,4 +42,5 @@ if __name__ == "__main__":
     plt.ylabel("Amplitude")
     plt.legend()
     plt.grid(True)
+    plt.savefig("plots/xt_vt_constant.png", dpi=300, bbox_inches="tight")
     plt.show()
