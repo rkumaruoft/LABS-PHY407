@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from common_functions import runge_kutta4, f  # import the RK4 solver and derivative function
+from common_functions import runge_kutta4, f
 
 
 if __name__ == "__main__":
@@ -12,7 +12,6 @@ if __name__ == "__main__":
     r0 = np.array([1.0, 0.0])  # initial conditions [x0, v0]
 
     # these conditions plot around 10 oscillations
-    # Integrate using RK4
     x_points, v_points = runge_kutta4(f, r0, t_points, dt)
 
 
