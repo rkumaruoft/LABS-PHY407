@@ -1,3 +1,4 @@
+# based on Solution to Newman 8.8, Space garbage. From (Author: Nico Grisouard, Univ. of Toronto)
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     plt.plot(xpoints, ypoints, ':')
     plt.xlabel("$x$")
     plt.ylabel("$y$")
-    plt.title('Trajectory of a ball bearing around a space rod.', fontsize=ftsz)
+    print('Title: Trajectory of a ball bearing around a space rod.')
     plt.axis('equal')
     plt.grid()
     plt.tight_layout()
@@ -193,13 +194,33 @@ if __name__ == "__main__":
     step_ratio = n_fixed_steps / n_ad_steps if n_ad_steps > 0 else np.inf
     print(f"Step count ratio (fixed / adaptive) = {step_ratio:.2f}")
 
+    # plot dtpoints (time step size)
+    dtpoints = np.array(times_ad[1:]) - np.array(times_ad[:-1])
+    nskip = 2
+    if len(dtpoints) > nskip:
+        t_for_dt = np.array(times_ad[:-1])[nskip:]
+        dt_for_plot = dtpoints[nskip:]
+    else:
+        t_for_dt = np.array(times_ad[:-1])
+        dt_for_plot = dtpoints
+
+    plt.figure(4)
+    plt.plot(t_for_dt, dt_for_plot, 'b.-')
+    plt.xlabel('t')
+    plt.ylabel('dt (adaptive)')
+    print('Title: Adaptive time step size vs time')
+    plt.grid()
+    plt.tight_layout()
+    plt.savefig('adaptive_dt_vs_time.png', dpi=300)
+    plt.show()
+
     # Trajectory only
     plt.figure(2)
     plt.plot(x_ad, y_ad, 'k.', markersize=3, label='adaptive (accepted points)')
     plt.plot(x_fix, y_fix, 'r-', linewidth=1, alpha=0.7, label=f'fixed h={h_fixed}')
     plt.xlabel("$x$")
     plt.ylabel("$y$")
-    print('Trajectory of a ball bearing around a space rod.')
+    print('Title: Trajectory of a ball bearing around a space rod.')
     plt.axis('equal')
     plt.grid()
     # plt.legend()
@@ -212,7 +233,7 @@ if __name__ == "__main__":
     plt.plot(times_ad, h_vals, 'b.-')
     plt.xlabel('t')
     plt.ylabel('h (adaptive)')
-    print('Adaptive step size over time')
+    print('Title: Adaptive step size over time')
     plt.grid()
     plt.tight_layout()
     plt.savefig('adaptive_h.png', dpi=300)
