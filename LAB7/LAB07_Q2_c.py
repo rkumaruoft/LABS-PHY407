@@ -53,6 +53,7 @@ dx_interior = x_interior[1] - x_interior[0]
 # symmetry-based normalization
 mid_idx = len(x_interior) // 2
 left_x = x_interior[:mid_idx+1]
+
 # functions to compute normalization
 def normalize_by_symmetry(psi_full):
     psi = psi_full[ix].copy()
