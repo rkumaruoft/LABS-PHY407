@@ -1,9 +1,7 @@
-# Solution to Newman 8.8, Space garbage.
-# Author: Nico Grisouard, Univ. of Toronto
+# based on Solution to Newman 8.8, Space garbage. (Author: Nico Grisouard, Univ. of Toronto)
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
-
 
 def rhs(r):
     """ The right-hand-side of the equations
