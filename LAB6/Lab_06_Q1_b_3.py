@@ -32,8 +32,6 @@ if __name__ == "__main__":
     # Integrate using RK4
     x_points, v_points = runge_kutta4(f_custom, r0, t_points, dt)
 
-
-
     # Plot results
     plt.figure(figsize=(8, 5))
     plt.plot(t_points, x_points, label="x(t) — Displacement")

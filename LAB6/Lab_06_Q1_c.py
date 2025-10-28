@@ -16,16 +16,14 @@ if __name__ == "__main__":
     # range for v_p as described in the question
     vp_min = 0.1 * v_f * np.log(gamma * tau / v_f)
     vp_max = 1.5 * v_f * np.log(gamma * tau / v_f)
-    vp_values = np.linspace(vp_min, vp_max, 6)  # run 4 representative values
+    vp_values = np.linspace(vp_min, vp_max, 6)
 
-    # integration setup
     a = 1e-4
     b = 60
     dt = 1e-3
     t_points = np.arange(a, b, dt)
     r0 = np.array([0.0, 0.0])  # initial position and velocity
 
-    # ensure folder exists
     os.makedirs("plots", exist_ok=True)
 
     # ---------- PLOT x(t) ----------
