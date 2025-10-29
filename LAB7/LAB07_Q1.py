@@ -179,7 +179,7 @@ if __name__ == "__main__":
     t_end = time.perf_counter()
     t_fixed = t_end - t_start
 
-    # Prepare plotting arrays
+    # Plotting arrays
     x_ad = traj_ad[:, 0]
     y_ad = traj_ad[:, 2]
     x_fix = traj_fix[:, 0]
