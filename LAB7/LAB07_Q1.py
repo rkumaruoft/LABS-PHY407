@@ -186,13 +186,10 @@ if __name__ == "__main__":
     y_fix = traj_fix[:, 2]
 
     # Print timing and step-count comparison
-    print(
-        f"Adaptive run: clock time = {t_adaptive:.6f} s; accepted steps = {n_ad_steps}; recorded points = {len(times_ad)}")
-    print(f"Fixed run   : clock time = {t_fixed:.6f} s; steps = {n_fixed_steps}; recorded points = {len(times_fix)}")
+    print(f"Adaptive run: clock time = {t_adaptive:.6f} s")
+    print(f"Fixed run   : clock time = {t_fixed:.6f} s")
     speedup = t_fixed / t_adaptive if t_adaptive > 0 else np.inf
-    print(f"Fixed / Adaptive time ratio = {speedup:.3f} (values >1 mean fixed slower)")
-    step_ratio = n_fixed_steps / n_ad_steps if n_ad_steps > 0 else np.inf
-    print(f"Step count ratio (fixed / adaptive) = {step_ratio:.2f}")
+    print(f"Fixed / Adaptive time ratio = {speedup:.3f}")
 
     # plot dtpoints (time step size)
     dtpoints = np.array(times_ad[1:]) - np.array(times_ad[:-1])
