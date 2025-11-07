@@ -14,7 +14,7 @@ x = np.arange(0.0, L + dx, dx)
 N = len(x)
 
 dt = 1e-6
-t_final = 0.005
+t_final = 0.0035 # 0.005 is a good time
 n_steps = int(np.ceil(t_final / dt))
 
 # tuning (increased amplification)
@@ -23,7 +23,7 @@ vis_scale = 1     # vertical amplification for visibility
 anim_interval_ms = 1000 // 60
 
 # Instability detection
-instability_threshold = 0.01 # 0.01 good
+instability_threshold = 1 # 0.01 good
 
 # Initial fields
 psi = np.zeros(N)     # displacement
