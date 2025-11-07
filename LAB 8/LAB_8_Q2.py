@@ -18,7 +18,7 @@ t_final = 0.005
 n_steps = int(np.ceil(t_final / dt))
 
 # tuning (increased amplification)
-frame_skip = 20       # show every n computed steps
+frame_skip = 100       # show every n computed steps
 vis_scale = 1     # vertical amplification for visibility
 anim_interval_ms = 1000 // 60
 
@@ -49,7 +49,7 @@ ax.set_xlim(0, L)
 # y-limits
 ax.set_ylim(-0.01, 0.01)
 ax.set_xlabel('x (m)')
-ax.set_ylabel('scaled psi (m)')
+ax.set_ylabel('psi (m)')
 print('t = 0.000000 s')
 
 # Animation state
