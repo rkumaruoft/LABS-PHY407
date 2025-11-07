@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-# Physical and numerical parameters
+# parameters
 L = 1.0
 v = 100.0
 d = 0.10
