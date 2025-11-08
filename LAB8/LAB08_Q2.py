@@ -1,3 +1,12 @@
+"""
+Lab 08
+Question 2: FTCS solution of the wave equation
+Author: Peter Burgess (November 2025)
+Purpose: Solve the wave equation using FTCS method.
+
+Outputs: animation of solution from t = 0 to t = 0.005.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
