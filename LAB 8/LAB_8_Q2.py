@@ -31,7 +31,7 @@ phi = C * (L - x) / L * np.exp(- (x - d)**2 / (2 * sigma**2))  # initial velocit
 psi[0] = psi[-1] = 0.0
 phi[0] = phi[-1] = 0.0
 
-# FTCS step function
+# FTPS step function
 def ftcs_step(psi, phi, dt, dx, v):
     lap = np.zeros_like(psi)
     lap[1:-1] = (psi[2:] - 2.0 * psi[1:-1] + psi[:-2]) / dx**2
