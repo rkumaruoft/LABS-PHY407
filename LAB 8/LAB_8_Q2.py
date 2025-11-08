@@ -14,7 +14,7 @@ x = np.arange(0.0, L + dx, dx)
 N = len(x)
 
 dt = 1e-6
-t_final = 0.0035 # 0.005 is a good time
+t_final = 0.005 # 0.005 is a good time
 n_steps = int(np.ceil(t_final / dt))
 
 # tuning (increased amplification)
@@ -43,7 +43,7 @@ def ftcs_step(psi, phi, dt, dx, v):
 
 
 # Plotting
-fig, ax = plt.subplots(figsize=(9, 3))
+fig, ax = plt.subplots(figsize=(9, 4))
 line, = ax.plot(x, vis_scale * psi, lw=2, color='C0')
 ax.set_xlim(0, L)
 # y-limits
