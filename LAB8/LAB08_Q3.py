@@ -2,12 +2,15 @@
 Lab 08
 Question 3: Solving Burgers' Equation
 Author: Reeshav Kumar (November 2025)
+Purpose: Solve 1D Burgers’ equation u_t + u u_x = 0 on [0, 2π] with given
+         Boundary Conditions using leapfrog method.
+Outputs: PNG plots of u(x,t) at t = 0, 0.5, 1.0, 1.5.
 """
 import numpy as np
 import matplotlib.pyplot as plt
 
 def apply_boundary(u):
-    """Apply Dirichlet boundary conditions: u(0,t)=0, u(Lx,t)=0."""
+    """Apply boundary conditions: u(0,t)=0, u(Lx,t)=0."""
     u[0] = 0.0
     u[-1] = 0.0
     return u
@@ -53,13 +56,13 @@ if __name__ == "__main__":
     save_indices = [int(ti / delta_t) for ti in save_times]
     saved_profiles = {0: np.sin(x)}  # initial condition at t=0
 
-    # leapfrog method
+    # leapfrog method for time evolution
     for j in range(1, Nt - 1):
         for i in range(1, Nx - 1):
             u_next[i] = (
                     u_prev[i]
                     - 0.5 * beta * ((u_curr[i + 1]) ** 2 - (u_curr[i - 1]) ** 2)
-            )
+            ) #
         u_next = apply_boundary(u_next)
         u_prev, u_curr = u_curr, u_next
 

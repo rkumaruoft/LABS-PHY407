@@ -1,3 +1,12 @@
+"""
+Lab 08
+Question 3: Solving Burgers' Equation
+Author: Reeshav Kumar (November 2025)
+Purpose: Solve 1D Burgers’ equation u_t + u u_x = 0 on [0, 2π] with given
+         Boundary Conditions using leapfrog method.
+Outputs: Animation of u(x, t) evolution.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -32,12 +41,12 @@ if __name__ == "__main__":
 
     beta = eps * delta_t / delta_x
 
-    # --- First step: Forward Euler ---
+    # Forward Euler
     for i in range(1, Nx - 1):
         u_curr[i] = u_prev[i] - 0.5 * beta * ((u_prev[i + 1])**2 - (u_prev[i - 1])**2)
     u_curr = apply_boundary(u_curr)
 
-    # --- Set up figure for animation ---
+    # Set up figure for animation
     fig, ax = plt.subplots(figsize=(8, 4))
     line, = ax.plot(x, u_prev, color='royalblue', lw=2)
     ax.set_xlim(0, Lx)
@@ -48,11 +57,10 @@ if __name__ == "__main__":
     title = ax.text(0.5, 1.02, "Time = 0.000 s", transform=ax.transAxes,
                     ha="center", va="bottom", fontsize=12)
 
-    # --- Storage for frames ---
     frames = []
     times = []
 
-    # --- Leapfrog time-stepping ---
+    # leapfrog method for time evolution
     for j in range(1, Nt - 1):
         for i in range(1, Nx - 1):
             u_next[i] = (
@@ -65,18 +73,22 @@ if __name__ == "__main__":
         frames.append(u_curr.copy())
         times.append(j * delta_t)
 
-    # --- Animation update function ---
+    # Animation update function
     def update(frame_index):
         y = frames[frame_index].copy()
         y[~np.isfinite(y)] = np.nan
         line.set_ydata(y)
-        title.set_text(f"Time = {times[frame_index]:.3f} s")  # ✅ updates live
+        title.set_text(f"Time = {times[frame_index]:.3f} s")
         return line, title
 
-    # --- Create and show animation ---
+    # Create and show animation
     ani = animation.FuncAnimation(
         fig, update, frames=len(frames), interval=200, blit=False, repeat=False
     )
 
     plt.tight_layout()
+    plt.xticks(
+        [0, np.pi / 2, np.pi, 3 * np.pi / 2, 2 * np.pi],
+        [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"]
+    )
     plt.show()

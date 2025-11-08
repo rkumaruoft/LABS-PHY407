@@ -1,9 +1,16 @@
+"""
+Lab 08
+Question 1: Temperature distribution in a heat conductor
+Author: Reeshav Kumar (November 2025)
+Purpose: Compute the steady-state temperature T(x, y) on a rectangular cut-out
+         with specified boundary temperatures.
+Outputs: Animated contour plot and saved PNG image showing the temperature field.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy.ma as ma
 from LAB08_Q1_a import boundary_T, is_boundary_point
-import pandas as pd
 
 
 if __name__ == "__main__":
@@ -40,8 +47,6 @@ if __name__ == "__main__":
     ax.set_title(f"Temperature Distribution (Omega = {w})")
 
     # ---- animation update ----
-
-
     def update(frame):
         global T, delta, iteration
         print(iteration)

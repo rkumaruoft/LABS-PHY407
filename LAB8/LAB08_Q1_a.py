@@ -1,9 +1,20 @@
+"""
+Lab 08
+Question 1: Temperature distribution in a heat conductor
+Author: Reeshav Kumar (November 2025)
+Purpose: Compute the steady-state temperature T(x, y) on a rectangular cut-out
+         with specified boundary temperatures.
+Outputs: Animated contour plot showing the temperature field as it converges.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy.ma as ma
 
 def is_boundary_point(x, y, eps=1e-12):
+    """Return True if (x, y) lies on the boundary of the shape;
+    False otherwise."""
     # AB
     if abs(y - 0) < eps and 0 <= x <= 5:
         return True
@@ -32,8 +43,9 @@ def is_boundary_point(x, y, eps=1e-12):
         return False
 
 
-def boundary_T(x, y):
-    eps = 1e-12
+def boundary_T(x, y, eps = 1e-12):
+    """Return boundary temperature T(x, y) based on the given edge conditions.
+    if the point is in the interior set it to 0"""
     # AB
     if abs(y - 0) < eps and 0 <= x <= 5:
         return x
@@ -119,14 +131,11 @@ if __name__ == "__main__":
         ax.set_ylabel("y [cm]")
         ax.set_title("Temperature Distribution")
         ax.axis("equal")
-
         # # stop animation automatically
         # if delta < target:
         #     ani.event_source.stop()
         #     print(f"Converged after {iteration} iterations (ΔT={delta:.3e})")
-
         return []
-
 
     ani = animation.FuncAnimation(fig, update, frames=10000, interval=50, blit=False)
     plt.tight_layout()

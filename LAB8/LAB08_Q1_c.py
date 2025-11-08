@@ -1,3 +1,13 @@
+"""
+Lab 08
+Question 1: Temperature distribution in a heat conductor
+Author: Reeshav Kumar (November 2025)
+Purpose: Compute the steady-state temperature T(x, y) on a rectangular cut-out
+         with specified boundary temperatures.
+Outputs: Animated contour plot, saved PNG of the converged field, and CSV file
+         containing (x, y, T) values for the final temperature distribution.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -41,8 +51,6 @@ if __name__ == "__main__":
     ax.set_title(f"Steady-State Temperature Distribution (Omega = {w})")
 
     # ---- animation update ----
-
-
     def update(frame):
         global T, delta, iteration
         print(iteration)
@@ -84,6 +92,11 @@ if __name__ == "__main__":
             plt.tight_layout()
             plt.savefig(f"converged_omega{w}.png", dpi=300)
             plt.close()
+            # --- Save converged temperature grid to CSV ---
+            yy, xx = np.where(T != -1)  # valid grid points only
+            data = np.column_stack((x[xx], y[yy], T[yy, xx]))
+            df = pd.DataFrame(data, columns=["x (cm)", "y (cm)", "T (°C)"])
+            df.to_csv(f"temperature_converged_omega{w}.csv", index=False, float_format="%.6f")
 
         return []
 
