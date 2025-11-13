@@ -41,17 +41,14 @@ H = (-(hbar**2) / (2.0 * m)) * Lapl + sp.diags(V, 0, format='csc')
 # Crank-Nicolson matrices:
 I = sp.eye(Nx, format='csc')
 coeff = 1j * tau / (2.0 * hbar)
-A = (I + coeff * H)            # left-hand side matrix
-B = (I - coeff * H)            # right-hand side operator
-
+A = (I + coeff * H)
+B = (I - coeff * H)
 
 # Modify A and B so boundary rows enforce psi[0]=0 and psi[-1]=0
 def enforce_dirichlet_on_matrix(M):
     M = M.tolil()
-
     M[0, :] = 0
     M[-1, :] = 0
-
     M[0, 0] = 1.0
     M[-1, -1] = 1.0
     return M.tocsc()
@@ -70,24 +67,23 @@ psi0[-1] = 0.0
 
 # Normalize psi0 numerically using trapezoidal rule
 def norm(psi):
-    return np.sqrt(np.trapz(np.abs(psi)**2, x))
+    return np.sqrt(np.trapezoid(np.abs(psi)**2, x))
 
 psi0 = psi0 / norm(psi0)
 
 # diagnostics functions
 def expectation_x(psi):
-    return np.trapz(np.conjugate(psi) * x * psi, x).real
+    return np.trapezoid(np.conjugate(psi) * x * psi, x).real
 
 # compute expectation value of energy E = <psi|H|psi>
-
 def expectation_energy(psi):
     Hpsi = H.dot(psi)
-    return np.trapz(np.conjugate(psi) * Hpsi, x).real
+    return np.trapezoid(np.conjugate(psi) * Hpsi, x).real
 
 # time-stepping
 psi = psi0.copy()
 times = [0.0]
-norms = [np.trapz(np.abs(psi)**2, x)]
+norms = [np.trapezoid(np.abs(psi)**2, x)]
 Evals = [expectation_energy(psi)]
 xexp = [expectation_x(psi)]
 
@@ -112,7 +108,7 @@ for n in range(1, Nsteps+1):
     if n in store_indices:
         t = n * tau
         times.append(t)
-        norms.append(np.trapz(np.abs(psi)**2, x))
+        norms.append(np.trapezoid(np.abs(psi)**2, x))
         Evals.append(expectation_energy(psi))
         xexp.append(expectation_x(psi))
         stored_psis.append(psi.copy())
