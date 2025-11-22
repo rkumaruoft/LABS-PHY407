@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
     # Create and show animation
     ani = animation.FuncAnimation(
-        fig, update, frames=len(frames), interval=200, blit=False, repeat=False
+        fig, update, frames=len(frames), interval=20, blit=False, repeat=False
     )
 
     plt.tight_layout()

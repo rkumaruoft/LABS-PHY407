@@ -94,3 +94,58 @@ def update(frame):
 
 anim = FuncAnimation(fig, update, frames=frames_to_show, interval=anim_interval_ms, blit=True)
 plt.show()
+
+# ============================================================
+# Generate FTCS snapshots at the same times as the spectral method
+# ============================================================
+
+print("\nGenerating FTCS snapshots...\n")
+
+snapshot_times = np.array([2, 4, 6, 12, 100]) * 1e-3   # seconds
+snapshot_solutions = {t: None for t in snapshot_times}
+
+# FTCS parameters (same as before)
+psi_ftcs = np.zeros(N)
+phi_ftcs = C * (L - x) / L * np.exp(-(x - d)**2 / (2*sigma**2))
+psi_ftcs[0] = psi_ftcs[-1] = 0
+phi_ftcs[0] = phi_ftcs[-1] = 0
+
+def ftcs_step_only(psi, phi):
+    lap = np.zeros_like(psi)
+    lap[1:-1] = (psi[2:] - 2*psi[1:-1] + psi[:-2]) / dx**2
+    psi_new = psi + dt * phi
+    phi_new = phi + dt * v**2 * lap
+    psi_new[0] = psi_new[-1] = 0
+    phi_new[0] = phi_new[-1] = 0
+    return psi_new, phi_new
+
+# Run FTCS long enough to hit 100 ms
+steps_total = int(0.100 / dt)
+time_ftcs = 0.0
+
+for step in range(steps_total):
+    psi_ftcs, phi_ftcs = ftcs_step_only(psi_ftcs, phi_ftcs)
+    time_ftcs += dt
+
+    # store snapshots
+    for target in snapshot_times:
+        if snapshot_solutions[target] is None and abs(time_ftcs - target) < dt/2:
+            snapshot_solutions[target] = psi_ftcs.copy()
+            print(f"Saved snapshot at t = {target*1000:.1f} ms")
+
+# ============================================================
+# Plot each snapshot
+# ============================================================
+
+for t in snapshot_times:
+    plt.figure(figsize=(8,4))
+    plt.plot(x, snapshot_solutions[t], lw=2)
+    plt.title(f"FTCS Solution at t = {t*1000:.1f} ms")
+    plt.xlabel("x (m)")
+    plt.ylabel("ψ(x,t) (m)")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(f"ftcs_{int(t*1000)}ms.png", dpi=300)
+    plt.show()
+
+print("\nAll FTCS snapshots saved.\n")

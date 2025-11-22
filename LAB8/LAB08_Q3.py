@@ -9,11 +9,13 @@ Outputs: PNG plots of u(x,t) at t = 0, 0.5, 1.0, 1.5.
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def apply_boundary(u):
     """Apply boundary conditions: u(0,t)=0, u(Lx,t)=0."""
     u[0] = 0.0
     u[-1] = 0.0
     return u
+
 
 if __name__ == "__main__":
     # given constants
@@ -46,7 +48,7 @@ if __name__ == "__main__":
     # forward euler step
     for i in range(1, Nx - 1):
         u_curr[i] = (
-                u_prev[i]- 0.5 * beta * ((u_prev[i + 1]) ** 2 - (u_prev[i - 1]) ** 2)
+                u_prev[i] - 0.5 * beta * ((u_prev[i + 1]) ** 2 - (u_prev[i - 1]) ** 2)
         )
 
     u_curr = apply_boundary(u_curr)
@@ -62,7 +64,7 @@ if __name__ == "__main__":
             u_next[i] = (
                     u_prev[i]
                     - 0.5 * beta * ((u_curr[i + 1]) ** 2 - (u_curr[i - 1]) ** 2)
-            ) #
+            )  #
         u_next = apply_boundary(u_next)
         u_prev, u_curr = u_curr, u_next
 
@@ -71,25 +73,19 @@ if __name__ == "__main__":
             saved_profiles[round(j * delta_t, 2)] = u_curr.copy()
             print(f"Saved snapshot at t = {j * delta_t:.2f}")
 
-
     # plot results
     for tval, profile in saved_profiles.items():
         plt.figure(figsize=(8, 4))
         plt.plot(x, profile, color='royalblue')
         plt.xlabel("x")
         plt.ylabel("u(x, t)")
-        plt.title(f"Solution to the Burger's Eq. at t = {tval:.1f}")
+        plt.title(f"Leapforg Solution to the Burger's Eq. at t = {tval:.1f}")
         plt.grid(True)
         plt.xticks(
-            [0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi],
+            [0, np.pi / 2, np.pi, 3 * np.pi / 2, 2 * np.pi],
             [r"$0$", r"$\frac{\pi}{2}$", r"$\pi$", r"$\frac{3\pi}{2}$", r"$2\pi$"]
         )
 
         plt.tight_layout()
-        plt.savefig(f"burgers_t{tval:.1f}.png", dpi=300)
+        plt.savefig(f"Leapfrog_burgers_t{tval:.1f}.png", dpi=300)
         plt.close()
-
-
-
-
-
