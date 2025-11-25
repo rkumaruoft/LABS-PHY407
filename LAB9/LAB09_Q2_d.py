@@ -13,21 +13,25 @@ x = np.linspace(-L/2, L/2, Nx)
 dx = x[1] - x[0]
 
 tau = 1e-18                    # time step (s)
-Nsteps = 3000                  # number of time steps
+Nsteps = 6000                  # number of time steps
 T = Nsteps * tau
 
 # Wavepacket parameters
 sigma = L / 25.0
 kappa = 500.0 / L
-x0 = L / 5.0
+x0 = L / 3.0                   # initial centre of wavepacket
 
-# Potential: infinite square well (0 inside, infinite at boundaries)
-V = np.zeros(Nx)
+# Double-well potential parameters
+V0 = 6.0e-17                   # J
+x1 = L / 4.0                   # well location parameter (half-separation scale)
+
+# Define double-well potential (symmetric double well with minima near ±x1)
+# V(x) = V0 * ((x^2 - x1^2)^2) / x1^4  -> minima at x = ±x1 with V = 0, barrier at x=0 with V=V0
+V = V0 * ((x**2 - x1**2)**2) / (x1**4)
 
 # Create discrete Laplacian with Dirichlet BCs (interior points only)
 hbar = sc.hbar
 
-# Second derivative operator (finite differences) with Dirichlet BCs
 diag = np.zeros(Nx)
 off = np.zeros(Nx-1)
 diag[:] = -2.0
@@ -59,9 +63,8 @@ B = enforce_dirichlet_on_matrix(B)
 # Pre-factorize A for speed
 A_factor = spla.factorized(A)
 
-# Initial psi (unnormalized)
+# Initial psi (unnormalized) centered at x0
 psi0 = np.exp(- (x - x0)**2 / (4.0 * sigma**2) + 1j * kappa * x)
-# enforce psi=0 at boundaries
 psi0[0] = 0.0
 psi0[-1] = 0.0
 
@@ -75,7 +78,6 @@ psi0 = psi0 / norm(psi0)
 def expectation_x(psi):
     return np.trapezoid(np.conjugate(psi) * x * psi, x).real
 
-# compute expectation value of energy E = <psi|H|psi>
 def expectation_energy(psi):
     Hpsi = H.dot(psi)
     return np.trapezoid(np.conjugate(psi) * Hpsi, x).real
@@ -88,7 +90,7 @@ Evals = [expectation_energy(psi)]
 xexp = [expectation_x(psi)]
 
 # choose times at which to store/plot
-store_every = 300
+store_every = int(Nsteps/4)
 store_indices = list(range(0, Nsteps+1, store_every))
 stored_psis = []
 stored_times = []
@@ -117,7 +119,7 @@ for n in range(1, Nsteps+1):
 
 print("Evolution complete.")
 
-# Plotting
+# Plotting diagnostics
 plt.figure(figsize=(10, 4))
 plt.subplot(1, 2, 1)
 plt.plot(times, norms, '-o', markersize=4)
