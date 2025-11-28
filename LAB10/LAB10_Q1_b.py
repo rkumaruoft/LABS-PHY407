@@ -1,7 +1,15 @@
 """
 Lab 10
-Question 1: Random points on the surface of the Earth
+Question 1(b): Random points on the surface of the Earth
 Author: Reeshav Kumar (November 2025)
+
+Purpose:
+    Generate random points uniformly distributed on the surface of a
+    sphere.
+
+Outputs:
+    - 2D scatter plot (lon vs lat)
+    - 3D scatter plot of (x, y, z)
 """
 
 import numpy as np
@@ -9,10 +17,9 @@ import matplotlib.pyplot as plt
 from random import random, seed
 
 if __name__ == "__main__":
-
     seed(12345)
 
-    N = 5000
+    N = 5000  # num of points to generate
     theta_list = []
     phi_list = []
     xyz_list = []
@@ -22,12 +29,13 @@ if __name__ == "__main__":
         z1 = random()
         z2 = random()
 
-        theta = np.arccos(1 - 2 * z1)
-        phi = 2 * np.pi * z2
+        theta = np.arccos(1 - 2 * z1)  # range : [0, pi]
+        phi = 2 * np.pi * z2  # range : [0, 2pi]
 
         theta_list.append((np.pi / 2) - theta)
         phi_list.append(phi - np.pi)
 
+        # compute the cartesian
         x = np.sin(theta) * np.cos(phi)
         y = np.sin(theta) * np.sin(phi)
         z = np.cos(theta)
@@ -54,13 +62,12 @@ if __name__ == "__main__":
     plt.xticks([-180, -120, -60, 0, 60, 120, 180])
     plt.yticks([-90, -60, -30, 0, 30, 60, 90])
 
-    # Add gridlines to show boundaries clearly
     plt.grid(True, linestyle="--", alpha=0.5)
 
-    plt.savefig("theta_phi_plot.png", dpi=300)
+    plt.savefig("lon_lat_plot.png", dpi=300)
     plt.close()
 
-    # 3D Plot: Cartesian scatter
+    # 3D Plot
     fig = plt.figure(figsize=(6, 6))
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(xyz_list[:, 0], xyz_list[:, 1], xyz_list[:, 2], s=1)

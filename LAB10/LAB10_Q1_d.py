@@ -1,6 +1,6 @@
 """
 Lab 10
-Question 1: Random Monte Carlo Estimation of Earth's Land Fraction
+Question 1(c): Random points on the surface of the Earth
 Author: Reeshav Kumar (November 2025)
 Purpose: Perform a Monte Carlo simulation to estimate the land fraction
          of the Earth.
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         method="nearest"
     )
 
-    # List of N values we want to test
+    # List of N values
     N_values = [50, 500, 5000, 50000]
 
     # Loop over all N values
@@ -62,11 +62,10 @@ if __name__ == "__main__":
         points = np.column_stack((lon, lat))
         data_r = interp(points)
 
-        # Monte Carlo land fraction = average of indicator (0/1)
+        # Monte Carlo land fraction
         land_fraction = np.sum(data_r) / N
-        print(f"Land fraction for {N} points = {land_fraction:.4f}")
+        print(f"Land fraction for {N} points = {land_fraction}")
 
-        # If N = 50000 → also create a plot map showing the result
         if N == 50000:
             plt.figure(figsize=(12, 6))
 
@@ -98,4 +97,3 @@ if __name__ == "__main__":
             plt.grid(True, linestyle="--", alpha=0.3)
             plt.tight_layout()
             plt.savefig("mote_carlo_map.png", dpi=300)
-            plt.show()
