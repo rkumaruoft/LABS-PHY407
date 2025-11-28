@@ -23,29 +23,30 @@ x = np.arange(0.0, L + dx, dx)
 N = len(x)
 
 dt = 1e-6
-t_final = 0.005 # 0.005 is a good time
+t_final = 100e-3  # 0.005 is a good time
 n_steps = int(np.ceil(t_final / dt))
 
 # tuning (increased amplification)
-frame_skip = 100       # show every n computed steps
-vis_scale = 1     # vertical amplification for visibility
+frame_skip = 100  # show every n computed steps
+vis_scale = 1  # vertical amplification for visibility
 anim_interval_ms = 1000 // 60
 
 # Instability detection
-instability_threshold = 1 # 0.01 good
+instability_threshold = 1  # 0.01 good
 
 # Initial fields
-psi = np.zeros(N)     # displacement
-phi = C * (L - x) / L * np.exp(- (x - d)**2 / (2 * sigma**2))  # initial velocity
+psi = np.zeros(N)  # displacement
+phi = C * x * (L - x) / L * np.exp(- (x - d) ** 2 / (2 * sigma ** 2))  # initial velocity
 psi[0] = psi[-1] = 0.0
 phi[0] = phi[-1] = 0.0
 
-# FTPS step function
+
+# FTCS step function
 def ftcs_step(psi, phi, dt, dx, v):
     lap = np.zeros_like(psi)
-    lap[1:-1] = (psi[2:] - 2.0 * psi[1:-1] + psi[:-2]) / dx**2
+    lap[1:-1] = (psi[2:] - 2.0 * psi[1:-1] + psi[:-2]) / dx ** 2
     psi_new = psi + dt * phi
-    phi_new = phi + dt * (v**2) * lap
+    phi_new = phi + dt * (v ** 2) * lap
     psi_new[0] = psi_new[-1] = 0.0
     phi_new[0] = phi_new[-1] = 0.0
     return psi_new, phi_new
@@ -56,7 +57,7 @@ fig, ax = plt.subplots(figsize=(9, 4))
 line, = ax.plot(x, vis_scale * psi, lw=2, color='C0')
 ax.set_xlim(0, L)
 # y-limits
-ax.set_ylim(-0.01, 0.01)
+ax.set_ylim(-0.0004, 0.0004)
 ax.set_xlabel('x (m)')
 ax.set_ylabel('psi (m)')
 print('t = 0.000000 s')
@@ -90,62 +91,76 @@ def update(frame):
         print("[Stopped: instability threshold reached]")
         running = False
 
-    return (line,)
+    return line,
+
 
 anim = FuncAnimation(fig, update, frames=frames_to_show, interval=anim_interval_ms, blit=True)
 plt.show()
 
 # ============================================================
-# Generate FTCS snapshots at the same times as the spectral method
+# SNAPSHOTS AT t = 2, 4, 6, 12, 100 ms
 # ============================================================
-
-print("\nGenerating FTCS snapshots...\n")
 
 snapshot_times = np.array([2, 4, 6, 12, 100]) * 1e-3   # seconds
-snapshot_solutions = {t: None for t in snapshot_times}
+snapshot_solutions = {T: None for T in snapshot_times}
 
-# FTCS parameters (same as before)
-psi_ftcs = np.zeros(N)
-phi_ftcs = C * (L - x) / L * np.exp(-(x - d)**2 / (2*sigma**2))
-psi_ftcs[0] = psi_ftcs[-1] = 0
-phi_ftcs[0] = phi_ftcs[-1] = 0
+# Reset fields for snapshot simulation
+psi_s = np.zeros(N)
+phi_s = C * x * (L - x) / L * np.exp(-(x - d)**2 / (2 * sigma**2))
+psi_s[0] = psi_s[-1] = 0.0
+phi_s[0] = phi_s[-1] = 0.0
 
-def ftcs_step_only(psi, phi):
-    lap = np.zeros_like(psi)
-    lap[1:-1] = (psi[2:] - 2*psi[1:-1] + psi[:-2]) / dx**2
-    psi_new = psi + dt * phi
-    phi_new = phi + dt * v**2 * lap
-    psi_new[0] = psi_new[-1] = 0
-    phi_new[0] = phi_new[-1] = 0
-    return psi_new, phi_new
+current_time = 0.0
+steps_total = int(0.100 / dt)   # simulate up to 0.1 seconds (100 ms)
 
-# Run FTCS long enough to hit 100 ms
-steps_total = int(0.100 / dt)
-time_ftcs = 0.0
+print("\nGenerating snapshots...\n")
 
 for step in range(steps_total):
-    psi_ftcs, phi_ftcs = ftcs_step_only(psi_ftcs, phi_ftcs)
-    time_ftcs += dt
 
-    # store snapshots
-    for target in snapshot_times:
-        if snapshot_solutions[target] is None and abs(time_ftcs - target) < dt/2:
-            snapshot_solutions[target] = psi_ftcs.copy()
-            print(f"Saved snapshot at t = {target*1000:.1f} ms")
+    # Advance solver
+    psi_s, phi_s = ftcs_step(psi_s, phi_s, dt, dx, v)
+    current_time += dt
 
-# ============================================================
-# Plot each snapshot
-# ============================================================
+    # Save snapshots when times match
+    for T in snapshot_times:
+        if snapshot_solutions[T] is None and abs(current_time - T) < dt/2:
+            snapshot_solutions[T] = psi_s.copy()   # Save displacement
+            print(f"Saved snapshot at t = {T*1000:.1f} ms")
 
-for t in snapshot_times:
+# ---------------------------------------------------------
+# Plot and save snapshots
+# ---------------------------------------------------------
+for T in snapshot_times:
+
+    y_mm = snapshot_solutions[T] * 1000.0   # convert to mm
+    raw_ymax = np.max(np.abs(y_mm))
+    if raw_ymax == 0:
+        raw_ymax = 1e-6
+
+    # ---- Extract exponent for scientific notation ----
+    exponent = int(np.floor(np.log10(raw_ymax)))
+    scale_factor = 10 ** exponent
+
+    # ---- Scale y data to readable range ----
+    y_scaled = y_mm / scale_factor
+    ymax_scaled = np.max(np.abs(y_scaled))
+
+    # ---- Nice symmetric ticks ----
+    yticks = np.linspace(-ymax_scaled, ymax_scaled, 5)
+
     plt.figure(figsize=(8,4))
-    plt.plot(x, snapshot_solutions[t], lw=2)
-    plt.title(f"FTCS Solution at t = {t*1000:.1f} ms")
+    plt.plot(x, y_scaled, lw=2)
+
+    plt.title(f"FTCS Displacement at t = {T*1000:.1f} ms", pad=25)
     plt.xlabel("x (m)")
-    plt.ylabel("ψ(x,t) (m)")
+    plt.ylabel(f'ψ(x,t) (scaled) (mm) ×10^{exponent}')
+
+    plt.ylim(-ymax_scaled, ymax_scaled)
+    plt.yticks(yticks, [f"{val:.3f}" for val in yticks])
+
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(f"ftcs_{int(t*1000)}ms.png", dpi=300)
+    plt.savefig(f"snapshot_{int(T*1000)}ms.png", dpi=300)
     plt.show()
 
-print("\nAll FTCS snapshots saved.\n")
+print("\nAll snapshots saved.\n")
