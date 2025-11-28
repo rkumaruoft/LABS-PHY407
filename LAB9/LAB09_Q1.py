@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     # define constants
     N = 1000  # interior points
-    L = 1  # meter
+    L = 1.0  # meter
 
     x_arr = np.linspace(0, L, N + 1)
 
