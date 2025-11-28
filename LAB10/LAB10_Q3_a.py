@@ -1,14 +1,12 @@
 """
-Lab 10
-Question 3: Importance sampling
-Author: Peter Burgess (November 2025)
-Purpose: ---
-
-Outputs: ---
+Importance sampling
+Purpose: To evaluate given rapidly varying integrands using importance sampling.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+np.random.seed(8675309)
 
 def plain_estimate(N):
     x = np.random.rand(N)
