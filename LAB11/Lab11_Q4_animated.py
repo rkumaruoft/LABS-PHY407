@@ -3,8 +3,6 @@ from random import random, randrange, seed
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-seed(1234)
-
 # -----------------------------
 # Ising helper functions
 # -----------------------------
