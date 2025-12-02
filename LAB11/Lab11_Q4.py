@@ -17,7 +17,6 @@ def calculate_energy(J_, dipoles):
 
 if __name__ == "__main__":
     os.makedirs("q4_plots", exist_ok=True)
-    seed(1234)
 
     for T in [1.0, 2.0, 3.0]:
         # define constants

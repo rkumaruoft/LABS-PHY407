@@ -1,48 +1,26 @@
 import numpy as np
 from random import random, randrange, seed
 import matplotlib.pyplot as plt
-import os
 import matplotlib.animation as animation
 
+seed(1234)
 
+# -----------------------------
+# Ising helper functions
+# -----------------------------
 def calculate_energy(J_, dipoles):
-    # horizontal neighbors: (i, j) with (i, j+1)
-    horiz = dipoles[:, :-1] * dipoles[:, 1:]
-
-    # vertical neighbors: (i, j) with (i+1, j)
-    vert = dipoles[:-1, :] * dipoles[1:, :]
-
-    # total energy
+    horiz = dipoles[:, :-1] * dipoles[:, 1:]    # horizontal neighbours
+    vert  = dipoles[:-1, :] * dipoles[1:, :]    # vertical neighbours
     return -J_ * (horiz.sum() + vert.sum())
 
 
-if __name__ == "__main__":
-    seed(1234)
-    # define constants
-    kB = 1.0
-    T = 3.0  # change this value for different animations
-    J = 1.0
-    L = 20  # 20×20 grid
-    N = 1000000  # number of Monte Carlo steps
-
-    # generate 2D array of dipoles (spins)
+def run_ising(T, L=20, J=1.0, steps=200000, save_every=1000):
     dipoles = np.random.choice([-1, 1], size=(L, L))
-
-    energy = []
-    magnet = []
-
-    # for animation
-    states = []  # store snapshots
-    save_every = 1000
+    states = []
 
     E = calculate_energy(J, dipoles)
-    energy.append(E)
-    magnet.append(np.sum(dipoles))
 
-    # starting state
-    states.append(dipoles.copy())
-
-    for k in range(N):
+    for k in range(steps):
         i = randrange(L)
         j = randrange(L)
 
@@ -58,27 +36,35 @@ if __name__ == "__main__":
             else:
                 dipoles[i, j] *= -1
 
-        energy.append(E)
-        magnet.append(np.sum(dipoles))
-
         if k % save_every == 0:
             states.append(dipoles.copy())
 
-    fig, ax = plt.subplots(figsize=(6, 6))
-    L = states[0].shape[0]
+    return states
 
-    # Grid of arrow positions
-    X, Y = np.meshgrid(np.arange(L), np.arange(L))
 
-    # Initial spins
+# Run simulations at 3 temperatures
+Ts = [1.0, 2.0, 3.0]
+L = 20
+steps = 1000000
+save_every = 1000
+
+all_states = [run_ising(T, L=L, steps=steps, save_every=save_every) for T in Ts]
+
+
+# Create 3 side-by-side animations
+fig, axes = plt.subplots(1, 3, figsize=(18, 10))
+quivers = []
+titles = []
+
+X, Y = np.meshgrid(np.arange(L), np.arange(L))
+U = np.zeros((L, L))   # x-component of arrow is always 0
+
+for ax, T, states in zip(axes, Ts, all_states):
     spins0 = states[0]
 
-    # Set up flattened values for quiver
-    U = np.zeros((L, L))
-    V = (-spins0).flatten()  # y-component: +1 up, -1 down
+    V = (-spins0).flatten()
     colors = np.where(spins0 == 1, "red", "blue").flatten()
 
-    # Create quiver object
     Q = ax.quiver(
         X.flatten() + 0.5,
         Y.flatten() + 0.5,
@@ -91,35 +77,39 @@ if __name__ == "__main__":
         headlength=6,
     )
 
+    ax.set_title(f"T = {T}", fontsize=14)
     ax.set_xlim(0, L)
     ax.set_ylim(0, L)
     ax.invert_yaxis()
     ax.set_xticks([])
     ax.set_yticks([])
 
-    title = ax.text(0.5, 1.05, f"T = {T}, Step 0", transform=ax.transAxes,
-                    ha="center", fontsize=16)
+    quivers.append(Q)
+    titles.append(ax)
+
+max_frames = min(len(states) for states in all_states)
 
 
-    def update(frame):
+def update(frame):
+    for Q, T, states in zip(quivers, Ts, all_states):
         spins = states[frame]
         V_new = (-spins).flatten()
         colors_new = np.where(spins == 1, "red", "blue").flatten()
+        Q.set_UVC(U, V_new)
+        Q.set_color(colors_new)
 
-        Q.set_UVC(U, V_new)  # update arrow directions
-        Q.set_color(colors_new)  # update arrow colors
-
-        title.set_text(f"T = {T}, Step {frame * save_every}")
-        return [Q]
+    fig.suptitle(f"Monte Carlo Step {frame * save_every}", fontsize=16)
+    return quivers
 
 
-    ani = animation.FuncAnimation(
-        fig,
-        update,
-        frames=len(states),
-        interval=70,
-        blit=False,
-        repeat=False
-    )
+ani = animation.FuncAnimation(
+    fig,
+    update,
+    frames=max_frames,
+    interval=80,
+    blit=False,
+    repeat=False
+)
 
-    plt.show()
+plt.tight_layout()
+plt.show()
