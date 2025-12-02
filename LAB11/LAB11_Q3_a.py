@@ -12,9 +12,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-# -----------------------
 # Parameters
-# -----------------------
 N = 25                   # number of cities
 ns = 8675309             # initial seed to generate the fixed city set
 Tmax = 10.0              # initial temperature
